@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import CustomInput from '../../components/CustomInput';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, useTheme } from 'react-native-paper';
 import CustomButton from '../../components/CustomButton';
 import { StatusBar, View } from 'react-native';
 import Header from '../../components/Header';
 import { NativeStackNavigationProp } from 'react-native-screens/lib/typescript/native-stack/types';
+import CustomInput from '../../components/CustomInput';
 import { RootStackParamList } from '../../types';
 import { icons } from '../../../assets';
 
