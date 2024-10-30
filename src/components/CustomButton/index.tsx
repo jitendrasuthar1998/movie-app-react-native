@@ -2,7 +2,17 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { Text } from 'react-native-paper';
 
-const CustomButton = ({ mode, title, onPress }) => {
+type CustomButtonProps = {
+  mode: string;
+  title: string;
+  onPress: () => void;
+};
+
+const CustomButton: React.FC<CustomButtonProps> = ({
+  mode,
+  title,
+  onPress,
+}) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}

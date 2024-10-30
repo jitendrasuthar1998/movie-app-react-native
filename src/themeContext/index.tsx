@@ -1,6 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import merge from 'deepmerge';
-import Colors from './colors.js';
 import {
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
@@ -11,6 +10,8 @@ import {
   MD3LightTheme,
   MD3Theme,
 } from 'react-native-paper';
+
+import Colors from './colors';
 import { getItem, setItem } from '../utils/AsyncStorage.js';
 
 const customDarkTheme: MD3Theme = { ...MD3DarkTheme, colors: Colors.dark };
@@ -23,8 +24,6 @@ const { LightTheme, DarkTheme } = adaptNavigationTheme({
 
 const CombinedDefaultTheme: MD3Theme = merge(LightTheme, customLightTheme);
 const CombinedDarkTheme: MD3Theme = merge(DarkTheme, customDarkTheme);
-
-console.log('Colors', Colors);
 
 // Define the type for ThemeContext
 type ThemeContextType = {
