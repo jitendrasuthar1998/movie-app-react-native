@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CustomInput from '../../components/CustomInput';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Text, useTheme } from 'react-native-paper';
+import { Text, useTheme } from 'react-native-paper';
 import CustomButton from '../../components/CustomButton';
 import { StatusBar, View } from 'react-native';
 import Header from '../../components/Header';
