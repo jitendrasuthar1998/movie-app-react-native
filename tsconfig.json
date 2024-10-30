@@ -1,0 +1,9 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "jsx": "react",
+    "strict": true,
+    "noEmit": true, // optional but recommended for React Native projects
+    "skipLibCheck": true // optional, helps with certain compatibility issues
+  }
+}
