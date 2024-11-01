@@ -40,7 +40,7 @@ type ThemeProviderProps = {
 };
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
+  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(true);
 
   const toggleTheme = () => setIsDarkTheme((prevTheme) => !prevTheme);
 
@@ -48,20 +48,20 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   const saveDarkTheme = async () => await setItem('isDarkTheme', isDarkTheme);
 
-  const getDarkTheme = async () => {
-    const darkTheme = await getItem('isDarkTheme');
-    if (darkTheme !== null) {
-      setIsDarkTheme(darkTheme);
-    }
-  };
+  // const getDarkTheme = async () => {
+  //   const darkTheme = await getItem('isDarkTheme');
+  //   if (darkTheme !== null) {
+  //     setIsDarkTheme(darkTheme);
+  //   }
+  // };
 
-  useEffect(() => {
-    getDarkTheme();
-  }, []);
+  // useEffect(() => {
+  //   getDarkTheme();
+  // }, []);
 
-  useEffect(() => {
-    saveDarkTheme();
-  }, [isDarkTheme]);
+  // useEffect(() => {
+  //   saveDarkTheme();
+  // }, [isDarkTheme]);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, isDarkTheme }}>
