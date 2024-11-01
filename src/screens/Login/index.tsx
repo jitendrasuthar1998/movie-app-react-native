@@ -54,7 +54,7 @@ const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
         <CustomButton
           mode={'contained'}
           title={'Login'}
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => navigation.navigate('Start')}
         />
         <Text
           style={{

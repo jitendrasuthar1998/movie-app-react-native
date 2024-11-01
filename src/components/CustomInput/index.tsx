@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 54,
+    width: '100%',
     fontSize: 14,
     fontFamily: 'Roboto-Regular',
   },

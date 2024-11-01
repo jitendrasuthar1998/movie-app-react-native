@@ -17,6 +17,7 @@ import Login from './src/screens/Login';
 import SignUp from './src/screens/SignUp';
 import Main from './src/screens/Main';
 import { PaperProvider } from 'react-native-paper';
+import Start from './src/screens/Start';
 
 export default function App() {
   // loading custom fonts using useFonts
@@ -54,7 +55,7 @@ function MainApp() {
     <PaperProvider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Main Screen"
+          initialRouteName="Main"
           screenOptions={{
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -84,9 +85,14 @@ function MainApp() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="Main Screen"
+            name="Main"
             options={{ headerShown: false }}
             component={Main}
+          />
+          <Stack.Screen
+            name="Start"
+            options={{ headerShown: false }}
+            component={Start}
           />
         </Stack.Navigator>
       </NavigationContainer>
