@@ -2,9 +2,15 @@ import { StyleSheet, TextInput, View, StatusBar } from 'react-native';
 import React, { useState } from 'react';
 import { useTheme } from 'react-native-paper';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const Search = () => {
   const theme = useTheme();
+
+  const isDarkTheme = useSelector(
+    (state: RootState) => state.theme.isDarkTheme
+  );
 
   const [searchText, setSearchText] = useState('');
 
@@ -17,7 +23,10 @@ const Search = () => {
         flex: 1,
       }}
     >
-      <StatusBar backgroundColor={theme.colors.background} />
+      <StatusBar
+        backgroundColor={theme.colors.background}
+        barStyle={isDarkTheme ? 'light-content' : 'dark-content'}
+      />
       <View
         style={{
           minWidth: 320,

@@ -42,6 +42,8 @@ const MyTabBar: React.FC<MyTabBarProps> = ({
         flexDirection: 'row',
         backgroundColor: theme.colors.background,
         alignItems: 'center',
+        borderTopColor: '#434343',
+        borderTopWidth: 0.3,
         justifyContent: 'center',
         gap: 32,
         paddingVertical: 4,
@@ -132,10 +134,24 @@ const MyTabBar: React.FC<MyTabBarProps> = ({
 };
 
 const Start: React.FC = () => {
+  const theme = useTheme();
   return (
     <Tab.Navigator
       tabBar={(props) => <MyTabBar {...props} />}
-      screenOptions={{ headerTitleAlign: 'center' }}
+      screenOptions={{
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: theme.colors.background,
+          borderBottomColor: theme.colors.onBackground,
+          borderBottomWidth: 0.2,
+          elevation: 3,
+        },
+        headerTitleStyle: {
+          color: theme.colors.onBackground,
+          fontFamily: 'Inter-Bold',
+          fontSize: 18,
+        },
+      }}
     >
       <Tab.Screen
         name="Home"

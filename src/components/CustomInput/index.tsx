@@ -35,7 +35,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
           setIsFocused(true);
         }}
         onBlur={() => {
-          setTextColor('white');
+          setTextColor(theme.colors.onBackground);
           setIsFocused(false);
         }}
         mode="outlined"

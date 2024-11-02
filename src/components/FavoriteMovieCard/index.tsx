@@ -5,8 +5,14 @@ import { Text, useTheme } from 'react-native-paper';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 const FavoriteMovieCard = () => {
+  const theme = useTheme();
   return (
-    <View style={styles.movieCardContainerStyle}>
+    <View
+      style={[
+        styles.movieCardContainerStyle,
+        { borderColor: theme.colors.onBackground, borderWidth: 0.2 },
+      ]}
+    >
       <Image
         source={images.WarriorsImg}
         resizeMode="cover"
@@ -35,7 +41,7 @@ const styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     gap: 10,
-    elevation: 5,
+    // elevation: 5,
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#121212',

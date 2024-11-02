@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, useTheme } from 'react-native-paper';
@@ -10,6 +10,10 @@ import CustomInput from '../../components/CustomInput';
 import Header from '../../components/Header';
 import { icons } from '../../../assets';
 import { RootStackParamList } from '../../types';
+import { AppDispatch, RootState } from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { signUpUser } from '../../redux/userSlice';
+import { setItem } from '../../utils/AsyncStorage';
 
 const { LockIcon, MessageIcon, EyeIcon, UserIcon } = icons;
 
@@ -23,9 +27,19 @@ const SignUp: React.FC<SignUpScreenProps> = ({ navigation }) => {
   const [userName, setUserName] = useState('');
 
   const theme = useTheme();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleSignUp = () => {
-    alert('Sign Up button clicked');
+    if (userName && email && password) {
+      // Dispatch the signup action
+      dispatch(signUpUser({ username: userName, email, password }));
+      alert('User signed up successfully!');
+
+      // Navigate to Login screen
+      navigation.navigate('Login');
+    } else {
+      alert('Please fill all fields');
+    }
   };
 
   return (

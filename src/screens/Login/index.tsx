@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, useTheme } from 'react-native-paper';
 import CustomButton from '../../components/CustomButton';
@@ -8,6 +8,9 @@ import { NativeStackNavigationProp } from 'react-native-screens/lib/typescript/n
 import CustomInput from '../../components/CustomInput';
 import { RootStackParamList } from '../../types';
 import { icons } from '../../../assets';
+import { loginUser } from '../../redux/userSlice';
+import { AppDispatch, RootState } from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
 
 const { LockIcon, MessageIcon, EyeIcon } = icons;
 
@@ -21,6 +24,24 @@ const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const theme = useTheme();
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigation.navigate('Start');
+    }
+  }, [isLoggedIn]);
+
+  const handleLogin = () => {
+    if (email && password) {
+      dispatch(loginUser({ email, password }));
+    } else {
+      alert('Please fill all fields');
+    }
+  };
 
   return (
     <SafeAreaView
@@ -54,7 +75,7 @@ const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
         <CustomButton
           mode={'contained'}
           title={'Login'}
-          onPress={() => navigation.navigate('Start')}
+          onPress={handleLogin}
         />
         <Text
           style={{
