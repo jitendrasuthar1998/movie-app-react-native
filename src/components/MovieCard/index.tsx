@@ -38,7 +38,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ item }) => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handleNavigation = () => {
-    navigation.navigate('Details', { title: item.title });
+    navigation.navigate('Details', { title: item.title, id: item.id });
   };
 
   return (
