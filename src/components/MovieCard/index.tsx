@@ -7,6 +7,7 @@ import { RootStackParamList } from '../../types';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Text } from 'react-native-paper';
+import Genres from '../Genres';
 
 const { NoPosterImg } = images;
 
@@ -14,6 +15,7 @@ interface Movie {
   id: number;
   title: string;
   poster_path?: string;
+  genre_ids: Number[];
 }
 
 type MovieCardProps = {
@@ -41,6 +43,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ item }) => {
     >
       <Image source={posterSource} style={styles.moviePoster} />
       <Text style={styles.movieTitle}>{item.title}</Text>
+      <Genres data={item.genre_ids.slice(0, 2)} />
     </TouchableOpacity>
   );
 };

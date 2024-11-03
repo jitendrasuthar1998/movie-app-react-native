@@ -51,7 +51,7 @@ const MainHome: React.FC = () => {
   } = useSelector((state: RootState) => state.movie);
   // console.log('loading', loading);
   // console.log('urls', url);
-  // console.log('genres', genres);
+  console.log('genres', genres);
   // console.log('popularMovies', popularMovies);
   // console.log('nowPlayingMovies', nowPlayingMovies);
   // console.log('topRatedMovies', topRatedMovies);
@@ -129,9 +129,9 @@ const MainHome: React.FC = () => {
 
   // Function to call API to get all genres data
   const getMovieGenres = async () => {
-    const movieGenres = await fetchDataFromApi(`/genre/movie/list`);
-    console.log('movieGenres', movieGenres);
-    dispatch(saveMovieGenres(movieGenres));
+    const { genres } = await fetchDataFromApi(`/genre/movie/list`);
+    console.log('movieGenres', genres);
+    dispatch(saveMovieGenres(genres));
   };
 
   return (

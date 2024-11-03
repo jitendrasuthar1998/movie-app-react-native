@@ -8,10 +8,8 @@ interface Url {
 }
 
 interface Genre {
-  [key: number]: {
-    id: number;
-    name: string;
-  };
+  id: number;
+  name: string;
 }
 
 interface Movie {
@@ -22,7 +20,7 @@ interface Movie {
 
 interface MovieState {
   url: Url;
-  genres: Genre;
+  genres: Genre[];
   favoriteMovies: Movie[];
   popularMovies: Movie[];
   nowPlayingMovies: Movie[];
@@ -36,7 +34,7 @@ const initialState: MovieState = {
     poster: '',
     profile: '',
   },
-  genres: {},
+  genres: [],
   favoriteMovies: [],
   popularMovies: [],
   nowPlayingMovies: [],
@@ -51,7 +49,7 @@ export const movieSlice = createSlice({
     saveApiConfiguration: (state, action: PayloadAction<Url>) => {
       state.url = action.payload;
     },
-    saveMovieGenres: (state, action: PayloadAction<Genre>) => {
+    saveMovieGenres: (state, action: PayloadAction<Genre[]>) => {
       state.genres = action.payload;
     },
     saveMovieIntoFavorites: (state, action: PayloadAction<Movie>) => {
