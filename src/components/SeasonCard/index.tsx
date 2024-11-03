@@ -25,7 +25,7 @@ const SeasonCard = () => {
           <Text
             style={{
               fontFamily: 'Inter-SemiBold',
-              color: '#F3F3F3',
+              //   color: '#F3F3F3',
               fontSize: 16,
             }}
           >
@@ -34,7 +34,7 @@ const SeasonCard = () => {
           <Text
             style={{
               fontFamily: 'Inter-Regular',
-              color: '#969696',
+              //   color: '#969696',
               fontSize: 13,
             }}
           >
@@ -44,7 +44,7 @@ const SeasonCard = () => {
         <Text
           style={{
             fontFamily: 'Inter-Regular',
-            color: '#F3F3F3',
+            // color: '#F3F3F3',
             fontSize: 12,
             lineHeight: 20,
           }}

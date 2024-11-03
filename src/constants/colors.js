@@ -17,7 +17,7 @@ export const Colors = {
         "errorContainer": "rgb(255, 218, 214)",
         "onErrorContainer": "rgb(65, 0, 2)",
         "background": "rgb(251, 253, 248)",
-        "onBackground": "rgb(25, 28, 26)",
+        "onBackground": "#121212",
         "surface": "rgb(251, 253, 248)",
         "onSurface": "rgb(25, 28, 26)",
         "surfaceVariant": "rgb(220, 229, 220)",
@@ -25,6 +25,7 @@ export const Colors = {
         "focusedOutline": "green",
         "outline": "rgb(112, 121, 114)",
         "outlineVariant": "rgb(192, 201, 192)",
+
         "shadow": "rgb(0, 0, 0)",
         "scrim": "rgb(0, 0, 0)",
         "inverseSurface": "rgb(46, 49, 46)",

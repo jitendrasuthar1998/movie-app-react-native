@@ -2,9 +2,37 @@ import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
 import React from 'react';
 import MovieCard from '../MovieCard';
 import { Card, Text, useTheme } from 'react-native-paper';
+import useFetch from '../../hooks/useFetch';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
-const MovieSection = () => {
+type MovieSectionProps = {
+  category: string;
+};
+
+const MovieSection: React.FC<MovieSectionProps> = ({ category }) => {
   const theme = useTheme();
+
+  const getCategory = (category: string) => {
+    switch (category) {
+      case 'Now Playing':
+        return nowPlayingMovies;
+      case 'Popular':
+        return popularMovies;
+      case 'Top Rated':
+        return topRatedMovies;
+      case 'Upcoming':
+        return upComingMovies;
+    }
+  };
+
+  const { popularMovies, nowPlayingMovies, topRatedMovies, upComingMovies } =
+    useSelector((state: RootState) => state.movie);
+
+  const movies = getCategory(category);
+  // console.log(getCategory(category));
+  // const { data, loading } = useFetch(`/movie/${getCategory(category)}`);
+  // console.log('category', data);
 
   return (
     <View
@@ -13,13 +41,13 @@ const MovieSection = () => {
         { backgroundColor: theme.colors.background },
       ]}
     >
-      <Text style={styles.movieSectionTitle}>Popular</Text>
+      <Text style={styles.movieSectionTitle}>{category}</Text>
       <FlatList
         horizontal
         ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
         showsHorizontalScrollIndicator={false}
-        data={[1, 2, 3, 4, 5]}
-        renderItem={() => <MovieCard />}
+        data={movies}
+        renderItem={({ item }) => <MovieCard item={item} />}
       />
     </View>
   );

@@ -8,9 +8,9 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { PaperProvider } from 'react-native-paper';
 
-import { RootState, store, AppDispatch } from './src/redux/store';
+import { RootState, store, AppDispatch, persistor } from './src/redux/store';
 import { loadThemePreference } from './src/redux/themeSlice';
-
+import { PersistGate } from 'redux-persist/integration/react';
 // Screens
 import Home from './src/screens/Home';
 import Details from './src/screens/Details';
@@ -30,7 +30,9 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <Provider store={store}>
-      <MainApp />
+      <PersistGate loading={null} persistor={persistor}>
+        <MainApp />
+      </PersistGate>
     </Provider>
   );
 }
