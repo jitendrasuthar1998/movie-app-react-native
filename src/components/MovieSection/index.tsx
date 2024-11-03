@@ -1,8 +1,7 @@
 import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
 import React from 'react';
 import MovieCard from '../MovieCard';
-import { Card, Text, useTheme } from 'react-native-paper';
-import useFetch from '../../hooks/useFetch';
+import { Text, useTheme } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
@@ -44,6 +43,7 @@ const MovieSection: React.FC<MovieSectionProps> = ({ category }) => {
       <Text style={styles.movieSectionTitle}>{category}</Text>
       <FlatList
         horizontal
+        contentContainerStyle={{ marginTop: 10 }}
         ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
         showsHorizontalScrollIndicator={false}
         data={movies}
@@ -57,14 +57,13 @@ export default MovieSection;
 
 const styles = StyleSheet.create({
   movieSectionContainer: {
-    height: 215,
+    // height: 215,
+    paddingVertical: 10,
     width: '100%',
     display: 'flex',
     borderRadius: 0,
     paddingHorizontal: 10,
-    borderWidth: 0,
     gap: 5,
-    marginVertical: 10,
   },
   movieSectionTitle: { fontFamily: 'Inter-Bold', fontSize: 20 },
 });

@@ -8,6 +8,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Text } from 'react-native-paper';
 import Genres from '../Genres';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
+
+import dayjs from 'dayjs';
 
 const { NoPosterImg } = images;
 
@@ -16,6 +19,8 @@ interface Movie {
   title: string;
   poster_path?: string;
   genre_ids: Number[];
+  vote_average: number;
+  release_date: string;
 }
 
 type MovieCardProps = {
@@ -43,7 +48,13 @@ const MovieCard: React.FC<MovieCardProps> = ({ item }) => {
     >
       <Image source={posterSource} style={styles.moviePoster} />
       <Text style={styles.movieTitle}>{item.title}</Text>
+      <Text style={styles.releaseDate}>
+        {dayjs(item.release_date).format('MMM D, YYYY')}
+      </Text>
       <Genres data={item.genre_ids.slice(0, 2)} />
+      <View style={styles.ratingItem}>
+        <Text style={styles.ratingText}>{item.vote_average.toFixed(1)}</Text>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -52,9 +63,12 @@ export default MovieCard;
 
 const styles = StyleSheet.create({
   movieCardContainer: {
-    height: 180,
+    // height: 180,
     width: 120,
+    // borderColor: 'red',
+    // borderWidth: 0.3,
     alignItems: 'center',
+    position: 'relative',
   },
   moviePoster: {
     height: 160,
@@ -65,6 +79,26 @@ const styles = StyleSheet.create({
   movieTitle: {
     marginTop: 5,
     fontSize: 12,
+    fontFamily: 'Inter-Regular',
     textAlign: 'center',
+  },
+  releaseDate: {
+    marginTop: 5,
+    fontSize: 10,
+    fontFamily: 'Inter-Regular',
+    textAlign: 'center',
+  },
+  ratingItem: {
+    paddingHorizontal: 4,
+    position: 'absolute',
+    top: 140,
+    right: 10,
+    paddingVertical: 2,
+    backgroundColor: '#eee',
+    borderRadius: 50,
+  },
+  ratingText: {
+    fontSize: 6,
+    color: '#333',
   },
 });

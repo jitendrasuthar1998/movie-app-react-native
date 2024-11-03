@@ -15,6 +15,9 @@ interface Genre {
 interface Movie {
   id: number;
   title: string;
+  genre_ids: number[];
+  vote_average: number;
+  release_date: string;
   [key: string]: any;
 }
 
