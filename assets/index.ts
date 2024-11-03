@@ -10,6 +10,7 @@ import TheGloryImg from './images/the_glory.png';
 import TheLastJediImg from './images/the_last_jedi.png';
 import WarriorsImg from './images/warriors.png';
 import StelleImg from './images/stelle.png';
+import TheGloryPoster from './images/the_glory_poster.png';
 
 export const icons = {
   EyeIcon,
@@ -27,4 +28,5 @@ export const images = {
   TheLastJediImg,
   WarriorsImg,
   StelleImg,
+  TheGloryPoster,
 };

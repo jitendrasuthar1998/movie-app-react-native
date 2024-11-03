@@ -80,8 +80,16 @@ function MainNavigator() {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
-            headerTintColor: '#fff',
-            headerTitleStyle: { fontWeight: 'bold' },
+            headerTintColor: theme.colors.onBackground,
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: theme.colors.background,
+            },
+            headerTitleStyle: {
+              color: theme.colors.onBackground,
+              fontFamily: 'Inter-Bold',
+              fontSize: 18,
+            },
           }}
         >
           {isLoggedIn ? (

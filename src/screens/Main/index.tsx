@@ -8,13 +8,13 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 const { TheLastJediImg } = images;
 
 type MainScreenProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'MainScreen'>;
+  navigation: NativeStackNavigationProp<RootStackParamList, 'Main'>;
 };
 
-const MainScreen: React.FC<MainScreenProps> = ({ navigation }) => {
+const Main: React.FC<MainScreenProps> = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <StatusBar barStyle={'default'} hidden />
+      <StatusBar barStyle={'default'} translucent />
       <ImageBackground
         source={TheLastJediImg}
         resizeMode="cover"
@@ -38,7 +38,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ navigation }) => {
   );
 };
 
-export default MainScreen;
+export default Main;
 
 const styles = StyleSheet.create({
   container: { flex: 1 },

@@ -22,7 +22,7 @@ export const Colors = {
         "onSurface": "rgb(25, 28, 26)",
         "surfaceVariant": "rgb(220, 229, 220)",
         "onSurfaceVariant": "rgb(64, 73, 67)",
-        "focusedOutline":"green",
+        "focusedOutline": "green",
         "outline": "rgb(112, 121, 114)",
         "outlineVariant": "rgb(192, 201, 192)",
         "shadow": "rgb(0, 0, 0)",
