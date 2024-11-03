@@ -42,6 +42,7 @@ export const loadThemePreference = createAsyncThunk(
   'theme/loadPreference',
   async () => {
     const darkTheme = await getItem('isDarkTheme');
+
     return darkTheme !== null ? darkTheme : true; // default to dark theme
   }
 );
@@ -64,12 +65,23 @@ const themeSlice = createSlice({
       state.theme = state.isDarkTheme
         ? CombinedDarkTheme
         : CombinedDefaultTheme;
+      setItem('isDarkTheme', state.isDarkTheme);
     },
     setTheme: (state: ThemeState, action: PayloadAction<boolean>) => {
       // <-- Explicitly set type
       state.isDarkTheme = action.payload;
       state.theme = action.payload ? CombinedDarkTheme : CombinedDefaultTheme;
+      setItem('isDarkTheme', state.isDarkTheme);
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(loadThemePreference.fulfilled, (state, action) => {
+      console.log('theme builder action payload', action.payload);
+      state.isDarkTheme = action.payload;
+      state.theme = state.isDarkTheme
+        ? CombinedDarkTheme
+        : CombinedDefaultTheme;
+    });
   },
 });
 

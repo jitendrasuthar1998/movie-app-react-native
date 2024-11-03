@@ -9,11 +9,7 @@ import { useFonts } from 'expo-font';
 import { PaperProvider } from 'react-native-paper';
 
 import { RootState, store, AppDispatch } from './src/redux/store';
-import {
-  loadThemePreference,
-  toggleTheme,
-  saveThemePreference,
-} from './src/redux/themeSlice';
+import { loadThemePreference } from './src/redux/themeSlice';
 
 // Screens
 import Home from './src/screens/Home';
@@ -23,8 +19,11 @@ import Login from './src/screens/Login';
 import SignUp from './src/screens/SignUp';
 import Main from './src/screens/Main';
 import Start from './src/screens/Start';
-import { getItem } from './src/utils/AsyncStorage';
-import { loadCurrentUser } from './src/redux/userSlice';
+import {
+  loadCurrentUser,
+  loadUserLoginState,
+  loadUsers,
+} from './src/redux/userSlice';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,7 +42,9 @@ function MainApp() {
 
   useEffect(() => {
     dispatch(loadThemePreference());
+    dispatch(loadUsers());
     dispatch(loadCurrentUser());
+    dispatch(loadUserLoginState());
   }, [dispatch]);
 
   const [loaded, error] = useFonts({
@@ -71,30 +72,8 @@ function MainApp() {
 
 function MainNavigator() {
   const theme = useSelector((state: RootState) => state.theme.theme);
-  const isDarkTheme = useSelector(
-    (state: RootState) => state.theme.isDarkTheme
-  );
+
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
-
-  // Load theme preference on start
-
-  // Toggle theme and save preference
-  // const handleToggleTheme = () => {
-  //   dispatch(toggleTheme());
-  //   dispatch(saveThemePreference(!isDarkTheme));
-  // };
-
-  // Load login state from storage
-  // const getLoginState = async () => {
-  //   const loggedIn = await getItem('isLoggedIn');
-  //   if (loggedIn !== null) {
-  //     setIsLoggedIn(loggedIn);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getLoginState();
-  // }, []);
 
   return (
     <PaperProvider theme={theme}>

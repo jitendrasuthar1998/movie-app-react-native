@@ -39,6 +39,15 @@ export const loadCurrentUser = createAsyncThunk(
   }
 );
 
+export const loadUserLoginState = createAsyncThunk(
+  'user/loadUserLoginState',
+  async () => {
+    const userLoggedIn = await getItem('currentUser');
+    console.log('user logged in in redux thunk', userLoggedIn);
+    return userLoggedIn ? userLoggedIn : false;
+  }
+);
+
 // Async thunk for saving users to local storage
 export const saveUsers = createAsyncThunk(
   'user/saveUsers',
@@ -100,6 +109,9 @@ const userSlice = createSlice({
     });
     builder.addCase(loadCurrentUser.fulfilled, (state, action) => {
       state.currentUser = action.payload;
+    });
+    builder.addCase(loadUserLoginState.fulfilled, (state, action) => {
+      state.isLoggedIn = action.payload;
     });
     builder.addCase(saveUsers.fulfilled, () => {
       // Successfully saved users to local storage

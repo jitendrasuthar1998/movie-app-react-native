@@ -12,7 +12,7 @@ export const setItem = async (key, value) => {
 export const getItem = async (key) => {
   try {
     const value = await AsyncStorage.getItem(key);
-    // console.log("value form async storage", value);
+    // console.log("value from async storage", 'key', key, "value", value);
     return value != null ? JSON.parse(value) : null;
   } catch (error) {
     console.error('Error getting item:', error);
