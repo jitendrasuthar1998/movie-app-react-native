@@ -1,5 +1,5 @@
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { images } from '../../../assets';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../../types';
@@ -9,7 +9,30 @@ import useFetch from '../../hooks/useFetch';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { fetchDataFromApi } from '../../utils/api';
 const { NoPosterImg } = images;
+
+// Define the structure of the movie data
+interface MovieData {
+  title: string;
+  id: number;
+  release_date: string;
+  adult: boolean;
+  vote_average: number;
+  overview: string;
+  poster_path: string;
+  genres: Array<{ name: string }>;
+}
+
+// Define the structure of the credits data
+interface Credit {
+  name: string;
+  job: string;
+}
+interface CreditsData {
+  cast: Credit[];
+  crew: Credit[];
+}
 
 const Details = () => {
   const navigation = useNavigation();
@@ -17,26 +40,39 @@ const Details = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'Details'>>();
 
   const { title, id } = route.params;
-
-  // console.log('id', id);
-  const { data, loading } = useFetch(`/movie/${id}`);
-  // console.log('movie data', data);
-  const { data: credits, loading: creditsLoading } = useFetch(
-    `/movie/${id}/credits`
-  );
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<MovieData | null>(null);
+  const [credits, setCredits] = useState<CreditsData | null>(null);
 
   const theme = useTheme();
 
   useLayoutEffect(() => {
     navigation.setOptions({ title });
+    getMovieAndCreditDetails();
   }, [navigation, title]);
+
+  const getMovieAndCreditDetails = async () => {
+    try {
+      const movieData = await fetchDataFromApi(`/movie/${id}`);
+      console.log('movie response: ', movieData);
+
+      const creditsData = await fetchDataFromApi(`/movie/${id}/credits`);
+
+      setData(movieData);
+      setCredits(creditsData);
+    } catch (error) {
+      console.error('Failed to fetch data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const { url } = useSelector((state: RootState) => state.movie);
 
-  // Set the poster source based on availability of `poster_path`
-  const posterSource = data?.poster_path
-    ? { uri: url.poster + data?.poster_path }
-    : NoPosterImg;
+  const posterSource =
+    data && data?.poster_path
+      ? { uri: url.poster + data?.poster_path }
+      : NoPosterImg;
 
   const getCast = () => {
     if (credits?.cast) {
@@ -135,32 +171,6 @@ const Details = () => {
           Genre : {data?.genres.map((item) => item.name).join(', ')}
         </Text>
       </View>
-      {/* <View style={{ paddingHorizontal: 10, gap: 10 }}>
-        <Text
-          style={{
-            fontFamily: 'Inter-SemiBold',
-            color: theme.colors.onBackground,
-            fontSize: 16,
-            lineHeight: 19.36,
-            textAlign: 'justify',
-          }}
-        >
-          Episodes
-        </Text>
-        <Text
-          style={{
-            fontFamily: 'Inter-SemiBold',
-            color: theme.colors.onBackground,
-            fontSize: 14,
-            lineHeight: 19.36,
-            textAlign: 'justify',
-          }}
-        >
-          Season 1
-        </Text>
-      </View>
-      <SeasonCard />
-      <SeasonCard /> */}
     </ScrollView>
   );
 };
