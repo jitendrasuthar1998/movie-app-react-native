@@ -46,5 +46,3 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 };
 
 export default CustomButton;
-
-const styles = StyleSheet.create({});

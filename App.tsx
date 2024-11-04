@@ -5,12 +5,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { PaperProvider } from 'react-native-paper';
-import { PersistGate } from 'redux-persist/integration/react';
 
 // Import app screens
-import Home from './src/screens/Home';
 import Details from './src/screens/Details';
-import Settings from './src/screens/Settings';
 import Login from './src/screens/Login';
 import SignUp from './src/screens/SignUp';
 import Main from './src/screens/Main';
@@ -22,8 +19,9 @@ import {
   loadUserLoginState,
   loadUsers,
 } from './src/redux/userSlice';
-import { RootState, store, AppDispatch, persistor } from './src/redux/store';
+import { RootState, store, AppDispatch } from './src/redux/store';
 import { loadThemePreference } from './src/redux/themeSlice';
+import { loadFavoriteMovies } from './src/redux/movieSlice';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,10 +29,7 @@ export default function App() {
   return (
     // Provider gives access to the Redux store across the app
     <Provider store={store}>
-      {/* PersistGate delays rendering the UI until persisted state is loaded */}
-      <PersistGate loading={null} persistor={persistor}>
-        <MainApp />
-      </PersistGate>
+      <MainApp />
     </Provider>
   );
 }
@@ -48,6 +43,7 @@ function MainApp() {
     dispatch(loadUsers());
     dispatch(loadCurrentUser());
     dispatch(loadUserLoginState());
+    dispatch(loadFavoriteMovies());
   }, [dispatch]);
 
   // Load custom fonts for the app
@@ -112,17 +108,7 @@ function MainNavigator() {
                 options={{ headerShown: false }}
                 component={Start}
               />
-              <Stack.Screen
-                name="Home"
-                component={Home}
-                options={{ headerShown: false }}
-              />
               <Stack.Screen name="Details" component={Details} />
-              <Stack.Screen
-                name="Settings"
-                options={{ headerShown: false }}
-                component={Settings}
-              />
             </>
           ) : (
             <>

@@ -6,13 +6,9 @@ const headers = {
 
 export const fetchDataFromApi = async (url: string) => {
   try {
-    // console.log('fetching data from tmbd');
-    // console.log('BASE_URL + url', BASE_URL + url);
     const { data } = await axios.get(BASE_URL + url, {
       headers,
     });
-
-    // console.log('data at fetchDataFromApi', data);
     return data;
   } catch (error) {
     console.log(error);

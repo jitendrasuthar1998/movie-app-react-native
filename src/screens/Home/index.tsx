@@ -54,13 +54,6 @@ const MainHome: React.FC = () => {
     topRatedMovies,
     upComingMovies,
   } = useSelector((state: RootState) => state.movie);
-  // console.log('loading', loading);
-  // console.log('urls', url);
-  // console.log('genres', genres);
-  // console.log('popularMovies', popularMovies);
-  // console.log('nowPlayingMovies', nowPlayingMovies);
-  // console.log('topRatedMovies', topRatedMovies);
-  // console.log('upComingMovies', upComingMovies);
 
   const shouldFetchData = () => {
     return (

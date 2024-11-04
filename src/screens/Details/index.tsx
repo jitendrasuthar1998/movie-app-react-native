@@ -154,10 +154,10 @@ const Details = () => {
             <Text style={styles.movieReleaseRatingInfo}>
               {dayjs(data?.release_date).format('MMM D, YYYY')}
               {data?.adult ? <Text>| 18+</Text> : ''}
-              {data?.vote_average ? ` | ${data?.vote_average}` : ''}
+              {data?.vote_average ? ` | ${data?.vote_average.toFixed(1)}` : ''}
             </Text>
             <Text style={styles.movieOverview}>{data?.overview}</Text>
-            <Text style={styles.movieOtherInfo}>Starring: {getCast()}</Text>
+            <Text style={styles.movieOtherInfo}>Starring : {getCast()}</Text>
             <Text style={styles.movieOtherInfo}>
               Creators : {getCreators()}
             </Text>
