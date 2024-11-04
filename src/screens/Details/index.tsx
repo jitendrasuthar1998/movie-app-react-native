@@ -1,15 +1,20 @@
-import { Image, ScrollView, StyleSheet, View } from 'react-native';
-import React, { useLayoutEffect, useState } from 'react';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { images } from '../../../assets';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../../types';
 import { useTheme, Text } from 'react-native-paper';
-import SeasonCard from '../../components/SeasonCard';
-import useFetch from '../../hooks/useFetch';
 import dayjs from 'dayjs';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { fetchDataFromApi } from '../../utils/api';
+import DetailsSkeleton from '../../components/DetailsSkeleton';
+import {
+  removeMovieFromFavorites,
+  saveMovieIntoFavorites,
+} from '../../redux/movieSlice';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 const { NoPosterImg } = images;
 
 // Define the structure of the movie data
@@ -21,6 +26,7 @@ interface MovieData {
   vote_average: number;
   overview: string;
   poster_path: string;
+  backdrop_path: string;
   genres: Array<{ name: string }>;
 }
 
@@ -53,10 +59,12 @@ const Details = () => {
 
   const getMovieAndCreditDetails = async () => {
     try {
-      const movieData = await fetchDataFromApi(`/movie/${id}`);
-      console.log('movie response: ', movieData);
+      const movieData: MovieData = await fetchDataFromApi(`/movie/${id}`);
+      // console.log('movie response: ', movieData);
 
-      const creditsData = await fetchDataFromApi(`/movie/${id}/credits`);
+      const creditsData: CreditsData = await fetchDataFromApi(
+        `/movie/${id}/credits`
+      );
 
       setData(movieData);
       setCredits(creditsData);
@@ -67,11 +75,13 @@ const Details = () => {
     }
   };
 
-  const { url } = useSelector((state: RootState) => state.movie);
+  const { url, favoriteMovies } = useSelector(
+    (state: RootState) => state.movie
+  );
 
   const posterSource =
     data && data?.poster_path
-      ? { uri: url.poster + data?.poster_path }
+      ? { uri: url.backdrop + data?.backdrop_path }
       : NoPosterImg;
 
   const getCast = () => {
@@ -92,86 +102,122 @@ const Details = () => {
     }
   };
 
+  const dispatch = useDispatch();
+
+  const isFavorite = favoriteMovies.some((movie) => movie.id === id);
+
+  const handleLikeDislike = () => {
+    if (data) {
+      const movie = {
+        id: data?.id,
+        poster_path: data?.poster_path,
+        release_date: data?.release_date,
+        title: data?.title,
+      };
+      if (isFavorite) {
+        dispatch(removeMovieFromFavorites(movie));
+      } else {
+        dispatch(saveMovieIntoFavorites(movie));
+      }
+    }
+  };
+
   return (
-    <ScrollView
-      contentContainerStyle={{
+    <View
+      style={{
         display: 'flex',
         flex: 1,
         flexDirection: 'column',
         backgroundColor: theme.colors.background,
         gap: 10,
+        position: 'relative',
       }}
     >
-      <Image source={posterSource} height={200} resizeMode="cover" />
-
-      <View style={{ paddingHorizontal: 10, gap: 10 }}>
-        <Text
-          style={{
-            fontFamily: 'Inter-Bold',
-            color: theme.colors.onBackground,
-            fontSize: 20,
-          }}
-        >
-          {title}
-        </Text>
-        <Text
-          style={{
-            fontFamily: 'Inter-Regular',
-            color: '#969696',
-            fontSize: 12,
-            textAlign: 'justify',
-          }}
-        >
-          {dayjs(data?.release_date).format('MMM D, YYYY')}
-          {data?.adult ? <Text>| 18+</Text> : ''}
-          {data?.vote_average ? ` | ${data?.vote_average}` : ''}
-        </Text>
-        <Text
-          style={{
-            fontFamily: 'Inter-Regular',
-            color: theme.colors.onBackground,
-            fontSize: 13,
-            lineHeight: 15.73,
-            textAlign: 'justify',
-          }}
-        >
-          {data?.overview}
-        </Text>
-        <Text
-          style={{
-            fontFamily: 'Inter-Regular',
-            color: theme.colors.onBackground,
-            fontSize: 13,
-            lineHeight: 15.73,
-            textAlign: 'justify',
-          }}
-        >
-          Starring: {getCast()}
-        </Text>
-        <Text
-          style={{
-            fontFamily: 'Inter-Regular',
-            color: theme.colors.onBackground,
-            fontSize: 13,
-            lineHeight: 15.73,
-            textAlign: 'justify',
-          }}
-        >
-          Creators : {getCreators()}
-        </Text>
-        <Text
-          style={{
-            fontFamily: 'Inter-Regular',
-            color: theme.colors.onBackground,
-            fontSize: 13,
-            lineHeight: 15.73,
-            textAlign: 'justify',
-          }}
-        >
-          Genre : {data?.genres.map((item) => item.name).join(', ')}
-        </Text>
-      </View>
-    </ScrollView>
+      {loading ? (
+        <DetailsSkeleton />
+      ) : (
+        <>
+          <Image source={posterSource} height={200} resizeMode="contain" />
+          <TouchableOpacity
+            onPress={handleLikeDislike}
+            style={{ position: 'absolute', top: 10, right: 10, zIndex: 10 }}
+          >
+            <Ionicons
+              name={'heart'}
+              size={20}
+              color={isFavorite ? theme.colors.primary : 'white'}
+            />
+          </TouchableOpacity>
+          <View style={{ paddingHorizontal: 10, gap: 10 }}>
+            <Text
+              style={{
+                fontFamily: 'Inter-Bold',
+                color: theme.colors.onBackground,
+                fontSize: 20,
+              }}
+            >
+              {title}
+            </Text>
+            <Text
+              style={{
+                fontFamily: 'Inter-Regular',
+                color: '#969696',
+                fontSize: 12,
+                textAlign: 'justify',
+              }}
+            >
+              {dayjs(data?.release_date).format('MMM D, YYYY')}
+              {data?.adult ? <Text>| 18+</Text> : ''}
+              {data?.vote_average ? ` | ${data?.vote_average}` : ''}
+            </Text>
+            <Text
+              style={{
+                fontFamily: 'Inter-Regular',
+                color: theme.colors.onBackground,
+                fontSize: 13,
+                lineHeight: 15.73,
+                textAlign: 'justify',
+              }}
+            >
+              {data?.overview}
+            </Text>
+            <Text
+              style={{
+                fontFamily: 'Inter-Regular',
+                color: theme.colors.onBackground,
+                fontSize: 13,
+                lineHeight: 15.73,
+                textAlign: 'justify',
+              }}
+            >
+              Starring: {getCast()}
+            </Text>
+            <Text
+              style={{
+                fontFamily: 'Inter-Regular',
+                color: theme.colors.onBackground,
+                fontSize: 13,
+                lineHeight: 15.73,
+                textAlign: 'justify',
+              }}
+            >
+              Creators : {getCreators()}
+            </Text>
+            <Text
+              style={{
+                fontFamily: 'Inter-Regular',
+                color: theme.colors.onBackground,
+                fontSize: 13,
+                lineHeight: 15.73,
+                textAlign: 'justify',
+              }}
+            >
+              Genre : {data?.genres.map((item) => item.name).join(', ')}
+            </Text>
+          </View>
+        </>
+      )}
+    </View>
   );
 };
 

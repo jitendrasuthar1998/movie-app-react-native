@@ -142,9 +142,13 @@ const Start: React.FC = () => {
         headerTitleAlign: 'center',
         headerStyle: {
           backgroundColor: theme.colors.background,
-          borderBottomColor: theme.colors.onBackground,
+          elevation: 4,
+          borderBottomColor: '#434343',
           borderBottomWidth: 0.2,
-          elevation: 3,
+          shadowColor: '#434343',
+          shadowOffset: { width: 0, height: -4 },
+          shadowOpacity: 0.08,
+          shadowRadius: 4,
         },
         headerTitleStyle: {
           color: theme.colors.onBackground,

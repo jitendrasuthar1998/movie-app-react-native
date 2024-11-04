@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet } from 'react-native';
+import { Image, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import MovieSection from '../../components/MovieSection';
 import { useTheme } from 'react-native-paper';
@@ -15,6 +15,8 @@ import {
   saveUpcomingMovies,
 } from '../../redux/movieSlice';
 import { AppDispatch, RootState } from '../../redux/store';
+import MovieSectionSkeleton from '../../components/MovieSectionSkeleton';
+import LoadingRect from '../../components/DetailsSkeleton/LoadingRect';
 
 const { MadameWebImg } = images;
 
@@ -41,6 +43,9 @@ const MainHome: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [loading, setLoading] = useState(false);
 
+  const isDarkTheme = useSelector(
+    (state: RootState) => state.theme.isDarkTheme
+  );
   const {
     url,
     genres,
@@ -51,7 +56,7 @@ const MainHome: React.FC = () => {
   } = useSelector((state: RootState) => state.movie);
   // console.log('loading', loading);
   // console.log('urls', url);
-  console.log('genres', genres);
+  // console.log('genres', genres);
   // console.log('popularMovies', popularMovies);
   // console.log('nowPlayingMovies', nowPlayingMovies);
   // console.log('topRatedMovies', topRatedMovies);
@@ -130,7 +135,7 @@ const MainHome: React.FC = () => {
   // Function to call API to get all genres data
   const getMovieGenres = async () => {
     const { genres } = await fetchDataFromApi(`/genre/movie/list`);
-    console.log('movieGenres', genres);
+    // console.log('movieGenres', genres);
     dispatch(saveMovieGenres(genres));
   };
 
@@ -141,11 +146,29 @@ const MainHome: React.FC = () => {
         { backgroundColor: theme.colors.background },
       ]}
     >
-      <Image source={MadameWebImg} style={styles.heroImg} />
-      <MovieSection category="Popular" />
-      <MovieSection category="Now Playing" />
-      <MovieSection category="Upcoming" />
-      <MovieSection category="Top Rated" />
+      <StatusBar
+        backgroundColor={theme.colors.background}
+        barStyle={isDarkTheme ? 'light-content' : 'dark-content'}
+      />
+      {loading ? (
+        <View style={{ display: 'flex', gap: 10 }}>
+          <LoadingRect
+            height={400}
+            width={'100%'}
+            backgroundColor={theme.colors.onBackground}
+          />
+          <MovieSectionSkeleton />
+          <MovieSectionSkeleton />
+        </View>
+      ) : (
+        <>
+          <Image source={MadameWebImg} style={styles.heroImg} />
+          <MovieSection category="Popular" />
+          <MovieSection category="Now Playing" />
+          <MovieSection category="Upcoming" />
+          <MovieSection category="Top Rated" />
+        </>
+      )}
     </ScrollView>
   );
 };

@@ -4,6 +4,7 @@ import MovieCard from '../MovieCard';
 import { Text, useTheme } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { Movie } from '../../types';
 
 type MovieSectionProps = {
   category: string;
@@ -12,7 +13,7 @@ type MovieSectionProps = {
 const MovieSection: React.FC<MovieSectionProps> = ({ category }) => {
   const theme = useTheme();
 
-  const getCategory = (category: string) => {
+  const getCategory = (category: string): Movie[] => {
     switch (category) {
       case 'Now Playing':
         return nowPlayingMovies;
@@ -22,6 +23,8 @@ const MovieSection: React.FC<MovieSectionProps> = ({ category }) => {
         return topRatedMovies;
       case 'Upcoming':
         return upComingMovies;
+      default:
+        return [];
     }
   };
 

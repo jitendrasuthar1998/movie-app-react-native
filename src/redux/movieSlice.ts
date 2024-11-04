@@ -1,24 +1,11 @@
 import { createSlice, PayloadAction, current } from '@reduxjs/toolkit';
+import { Movie, Url } from '../types';
 
 // Define types for the initial state
-interface Url {
-  backdrop: string;
-  poster: string;
-  profile: string;
-}
 
 interface Genre {
   id: number;
   name: string;
-}
-
-interface Movie {
-  id: number;
-  title: string;
-  genre_ids: number[];
-  vote_average: number;
-  release_date: string;
-  [key: string]: any;
 }
 
 interface MovieState {
@@ -59,7 +46,7 @@ export const movieSlice = createSlice({
       state.favoriteMovies.push(action.payload);
     },
     removeMovieFromFavorites: (state, action: PayloadAction<Movie>) => {
-      console.log('favoriteMovies == ', current(state.favoriteMovies));
+      // console.log('favoriteMovies == ', current(state.favoriteMovies));
       state.favoriteMovies = state.favoriteMovies.filter((item) =>
         isEqual(item, action)
       );

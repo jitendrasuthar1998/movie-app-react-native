@@ -10,6 +10,11 @@ const Favorites = () => {
   const isDarkTheme = useSelector(
     (state: RootState) => state.theme.isDarkTheme
   );
+  const { url, favoriteMovies } = useSelector(
+    (state: RootState) => state.movie
+  );
+
+  console.log('favoriteMovies at Favorites', favoriteMovies);
 
   return (
     <View
@@ -25,8 +30,8 @@ const Favorites = () => {
         )}
         contentContainerStyle={{ backgroundColor: theme.colors.background }}
         showsVerticalScrollIndicator={false}
-        data={[1, 2, 3, 4, 5, 6, 7, 8]}
-        renderItem={() => <FavoriteMovieCard />}
+        data={favoriteMovies}
+        renderItem={({ item }) => <FavoriteMovieCard item={item} url={url} />}
       />
     </View>
   );

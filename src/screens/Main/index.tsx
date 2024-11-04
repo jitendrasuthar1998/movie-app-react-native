@@ -4,6 +4,9 @@ import { images } from '../../../assets/index';
 import CustomButton from '../../components/CustomButton';
 import { RootStackParamList } from '../../types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTheme } from 'react-native-paper';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const { TheLastJediImg } = images;
 
@@ -12,9 +15,19 @@ type MainScreenProps = {
 };
 
 const Main: React.FC<MainScreenProps> = ({ navigation }) => {
+  const theme = useTheme();
+
+  const isDarkTheme = useSelector(
+    (state: RootState) => state.theme.isDarkTheme
+  );
+
   return (
     <View style={styles.container}>
-      <StatusBar barStyle={'default'} translucent />
+      <StatusBar
+        backgroundColor={theme.colors.background}
+        barStyle={isDarkTheme ? 'light-content' : 'dark-content'}
+      />
+      {/* <StatusBar barStyle={'default'} translucent /> */}
       <ImageBackground
         source={TheLastJediImg}
         resizeMode="cover"

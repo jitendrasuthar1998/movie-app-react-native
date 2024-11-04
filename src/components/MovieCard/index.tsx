@@ -4,21 +4,25 @@ import { Image } from 'react-native';
 import { images } from '../../../assets';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { Text } from 'react-native-paper';
+import { Text, useTheme } from 'react-native-paper';
 import Genres from '../Genres';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import dayjs from 'dayjs';
+import {
+  removeMovieFromFavorites,
+  saveMovieIntoFavorites,
+} from '../../redux/movieSlice';
 
 const { NoPosterImg } = images;
 
 interface Movie {
   id: number;
   title: string;
-  poster_path?: string;
-  genre_ids: Number[];
+  poster_path: string;
+  genre_ids: number[];
   vote_average: number;
   release_date: string;
 }
@@ -28,8 +32,10 @@ type MovieCardProps = {
 };
 
 const MovieCard: React.FC<MovieCardProps> = ({ item }) => {
-  const { url } = useSelector((state: RootState) => state.movie);
-
+  const { url, favoriteMovies } = useSelector(
+    (state: RootState) => state.movie
+  );
+  const theme = useTheme();
   // Set the poster source based on availability of `poster_path`
   const posterSource = item.poster_path
     ? { uri: url.poster + item.poster_path }
@@ -41,11 +47,39 @@ const MovieCard: React.FC<MovieCardProps> = ({ item }) => {
     navigation.navigate('Details', { title: item.title, id: item.id });
   };
 
+  const dispatch = useDispatch();
+  const isFavorite = favoriteMovies.some((movie) => movie.id === item.id);
+  const handleLikeDislike = () => {
+    const movie = {
+      id: item.id,
+      poster_path: item.poster_path,
+      release_date: item.release_date,
+      title: item.title,
+      genre_ids: item.genre_ids,
+      vote_average: item.vote_average,
+    };
+    if (isFavorite) {
+      dispatch(removeMovieFromFavorites(movie));
+    } else {
+      dispatch(saveMovieIntoFavorites(movie));
+    }
+  };
+
   return (
     <TouchableOpacity
       onPress={handleNavigation}
       style={styles.movieCardContainer}
     >
+      <TouchableOpacity
+        onPress={handleLikeDislike}
+        style={{ position: 'absolute', top: 10, right: 10, zIndex: 10 }}
+      >
+        <Ionicons
+          name={'heart'}
+          size={20}
+          color={isFavorite ? theme.colors.primary : 'white'}
+        />
+      </TouchableOpacity>
       <Image source={posterSource} style={styles.moviePoster} />
       <Text style={styles.movieTitle}>{item.title}</Text>
       <Text style={styles.releaseDate}>
@@ -92,7 +126,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     position: 'absolute',
     top: 140,
-    right: 10,
+    right: 7,
     paddingVertical: 2,
     backgroundColor: '#eee',
     borderRadius: 50,

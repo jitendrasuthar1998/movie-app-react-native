@@ -3,9 +3,39 @@ import React from 'react';
 import { images } from '../../../assets';
 import { Text, useTheme } from 'react-native-paper';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import dayjs from 'dayjs';
+import { useDispatch } from 'react-redux';
+import { removeMovieFromFavorites } from '../../redux/movieSlice';
+import { Movie } from '../../types';
 
-const FavoriteMovieCard = () => {
+const { NoPosterImg } = images;
+
+interface Url {
+  backdrop: string;
+  poster: string;
+  profile: string;
+}
+
+type FavoriteMovieCardProps = {
+  item: Movie;
+  url: Url;
+};
+
+const FavoriteMovieCard: React.FC<FavoriteMovieCardProps> = ({ item, url }) => {
   const theme = useTheme();
+  const posterSource = item.poster_path
+    ? { uri: url.poster + item.poster_path }
+    : NoPosterImg;
+
+  const dispatch = useDispatch();
+
+  const handleLikeDislike = () => {
+    dispatch(removeMovieFromFavorites(item));
+  };
+
+  const truncatedTitle =
+    item.title.length > 20 ? `${item.title.substring(0, 20)}...` : item.title;
+
   return (
     <View
       style={[
@@ -14,17 +44,24 @@ const FavoriteMovieCard = () => {
       ]}
     >
       <Image
-        source={images.WarriorsImg}
+        source={posterSource}
         resizeMode="cover"
         style={styles.moviePosterImgStyle}
       />
       <View style={styles.movieDetailsContainerStyle}>
         <View style={{ gap: 10 }}>
-          <Text style={styles.movieTitleStyle}>Warriors</Text>
-          <Text style={styles.movieYearStyle}>2019</Text>
+          <Text style={styles.movieTitleStyle}>{truncatedTitle}</Text>
+          <Text style={styles.movieYearStyle}>
+            {dayjs(item.release_date).format('MMM D, YYYY')}
+          </Text>
         </View>
         <View style={styles.movieLikeContainerStyle}>
-          <Ionicons name={'heart'} size={20} color={'white'} />
+          <Ionicons
+            onPress={handleLikeDislike}
+            name={'heart'}
+            size={20}
+            color={theme.colors.primary}
+          />
         </View>
       </View>
     </View>

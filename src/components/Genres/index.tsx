@@ -33,12 +33,13 @@ const styles = StyleSheet.create({
   genreContainer: {
     position: 'absolute',
     display: 'flex',
-    top: 0,
-    width: '100%',
+    top: 137,
+    left: 7,
+    // width: '%',
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    // justifyContent: 'flex-end',
   },
   genreItem: {
     paddingHorizontal: 4,
