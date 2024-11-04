@@ -14,6 +14,7 @@ import {
   saveMovieIntoFavorites,
 } from '../../redux/movieSlice';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import LoadingRect from '../../components/DetailsSkeleton/LoadingRect';
 
 const { NoPosterImg } = images;
 
@@ -123,6 +124,8 @@ const Details = () => {
     }
   };
 
+  const [imageLoading, setImageLoading] = useState(false);
+
   return (
     <View
       style={[
@@ -134,11 +137,22 @@ const Details = () => {
         <DetailsSkeleton />
       ) : (
         <>
-          <Image
-            source={posterSource}
-            resizeMode="cover"
-            style={{ height: 200 }}
-          />
+          <View style={{ height: 200, width: '100%' }}>
+            {imageLoading && (
+              <LoadingRect
+                height={200}
+                width={'100%'}
+                backgroundColor={theme.colors.onBackground}
+              />
+            )}
+            <Image
+              source={posterSource}
+              onLoadStart={() => setImageLoading(true)}
+              onLoadEnd={() => setImageLoading(false)}
+              resizeMode="cover"
+              style={{ height: 200 }}
+            />
+          </View>
           <TouchableOpacity
             onPress={handleLikeDislike}
             style={styles.likeContainer}

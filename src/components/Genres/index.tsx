@@ -35,11 +35,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     top: 137,
     left: 7,
-    // width: '%',
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
-    // justifyContent: 'flex-end',
   },
   genreItem: {
     paddingHorizontal: 4,
