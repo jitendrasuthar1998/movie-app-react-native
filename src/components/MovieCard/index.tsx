@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { Image } from 'react-native';
 import { images } from '../../../assets';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
@@ -15,6 +15,7 @@ import {
   removeMovieFromFavorites,
   saveMovieIntoFavorites,
 } from '../../redux/movieSlice';
+import LoadingRect from '../DetailsSkeleton/LoadingRect';
 
 const { NoPosterImg } = images;
 
@@ -65,6 +66,8 @@ const MovieCard: React.FC<MovieCardProps> = ({ item }) => {
     }
   };
 
+  const [imageLoading, setImageLoading] = useState(true);
+
   return (
     <TouchableOpacity
       onPress={handleNavigation}
@@ -80,7 +83,35 @@ const MovieCard: React.FC<MovieCardProps> = ({ item }) => {
           color={isFavorite ? theme.colors.primary : 'white'}
         />
       </TouchableOpacity>
-      <Image source={posterSource} style={styles.moviePoster} />
+
+      <View style={styles.moviePoster}>
+        {imageLoading ? (
+          <LoadingRect
+            backgroundColor={theme.colors.onBackground}
+            height={160}
+            width={110}
+            style={{
+              borderRadius: 10,
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              left: 0,
+              bottom: 0,
+            }}
+          />
+        ) : null}
+        <Image
+          style={{
+            resizeMode: 'cover',
+            height: '100%',
+            width: '100%',
+            borderRadius: 10,
+          }}
+          source={posterSource}
+          onLoadStart={() => setImageLoading(true)}
+          onLoadEnd={() => setImageLoading(false)}
+        />
+      </View>
       <Text style={styles.movieTitle}>{item.title}</Text>
       <Text style={styles.releaseDate}>
         {dayjs(item.release_date).format('MMM D, YYYY')}
@@ -108,7 +139,6 @@ const styles = StyleSheet.create({
     height: 160,
     width: 110,
     borderRadius: 10,
-    resizeMode: 'cover',
   },
   movieTitle: {
     marginTop: 5,

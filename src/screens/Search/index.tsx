@@ -14,12 +14,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { fetchDataFromApi } from '../../utils/api';
 import { Movie } from '../../types';
-import FavoriteMovieCard from '../../components/FavoriteMovieCard';
 import SearchMovieCard from '../../components/SearchMovieCard';
 import SearchSkeleton from '../../components/SearchSkeleton';
 
-const ITEMS_PER_SCREEN = 4; // Show 5 items per screen on mobile
-const API_ITEMS_PER_PAGE = 20; // API returns 20 items per page
+const ITEMS_PER_SCREEN = 4; // Show 4 items per screen on mobile
 
 const Search = () => {
   const theme = useTheme();
@@ -34,11 +32,10 @@ const Search = () => {
   const [subPage, setSubPage] = useState(1); // Inner page for 5-item pagination
   const [loading, setLoading] = useState(false);
 
-  // console.log('search text: ', searchText);
-  // console.log('search result: ', results);
   const { url, favoriteMovies } = useSelector(
     (state: RootState) => state.movie
   );
+
   // Fetch results based on the current API page
   const searchMovies = async (resetResults = false) => {
     if (loading) return;
@@ -53,15 +50,14 @@ const Search = () => {
       );
       setTotalPages(response.total_pages);
       setTotalResults(response.total_results);
-      setSubPage(1); // Reset to the first sub-page on new API fetch if results are reset
+      if (resetResults) {
+        setSubPage(1);
+      } // Reset to the first sub-page on new API fetch if results are reset
     } catch (error) {
       console.error('Error fetching results:', error);
     }
     setLoading(false);
   };
-
-  // console.log('total pages', totalPages);
-  // console.log('results', results.length);
 
   // Triggered when user initiates a search
   const handleSearchTextChange = (text: string) => {
@@ -88,17 +84,16 @@ const Search = () => {
   );
 
   // Handle sub-page changes and fetch new results if necessary
-  const handleSubPageChange = (newSubPage: number) => {
+  const handleSubPageChange = (newSubPage: number, isLastIndex: boolean) => {
     setSubPage(newSubPage);
 
     // Check if we need to fetch more items if fewer than 5 are in displayed results
 
-    // if (subPage * 4 < totalPages) {
-    //   setPage(page + 1);
-    // }
+    if (isLastIndex && results.length < totalResults) {
+      setPage(page + 1);
+    }
   };
 
-  // console.log('total items', subPage * 4);
   // Render pagination buttons based on the current results length
   const renderSubPaginationButtons = () => {
     const subPageCount = Math.ceil(results.length / ITEMS_PER_SCREEN);
@@ -109,7 +104,11 @@ const Search = () => {
           styles.pageButton,
           subPage === index + 1 && { backgroundColor: theme.colors.primary },
         ]}
-        onPress={() => handleSubPageChange(index + 1)}
+        onPress={() =>
+          index + 1 == subPageCount
+            ? handleSubPageChange(index + 1, true)
+            : handleSubPageChange(index + 1, false)
+        }
       >
         <Text
           style={[

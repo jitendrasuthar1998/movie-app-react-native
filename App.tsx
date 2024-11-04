@@ -1,17 +1,13 @@
-// App.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
-import { StatusBar } from 'expo-status-bar';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { PaperProvider } from 'react-native-paper';
-
-import { RootState, store, AppDispatch, persistor } from './src/redux/store';
-import { loadThemePreference } from './src/redux/themeSlice';
 import { PersistGate } from 'redux-persist/integration/react';
-// Screens
+
+// Import app screens
 import Home from './src/screens/Home';
 import Details from './src/screens/Details';
 import Settings from './src/screens/Settings';
@@ -19,17 +15,23 @@ import Login from './src/screens/Login';
 import SignUp from './src/screens/SignUp';
 import Main from './src/screens/Main';
 import Start from './src/screens/Start';
+
+// redux actions, store, and action type
 import {
   loadCurrentUser,
   loadUserLoginState,
   loadUsers,
 } from './src/redux/userSlice';
+import { RootState, store, AppDispatch, persistor } from './src/redux/store';
+import { loadThemePreference } from './src/redux/themeSlice';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    // Provider gives access to the Redux store across the app
     <Provider store={store}>
+      {/* PersistGate delays rendering the UI until persisted state is loaded */}
       <PersistGate loading={null} persistor={persistor}>
         <MainApp />
       </PersistGate>
@@ -38,17 +40,17 @@ export default function App() {
 }
 
 function MainApp() {
-  // Load custom fonts
-
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
+    // Load user preferences and data on app start
     dispatch(loadThemePreference());
     dispatch(loadUsers());
     dispatch(loadCurrentUser());
     dispatch(loadUserLoginState());
   }, [dispatch]);
 
+  // Load custom fonts for the app
   const [loaded, error] = useFonts({
     'Inter-Regular': require('./assets/fonts/Inter-Regular.ttf'),
     'Inter-Medium': require('./assets/fonts/Inter-Medium.ttf'),
@@ -60,11 +62,13 @@ function MainApp() {
   });
 
   useEffect(() => {
+    // Hide splash screen once fonts are loaded
     if (loaded || error) {
       SplashScreen.hideAsync();
     }
   }, [loaded, error]);
 
+  // Show nothing until fonts are loaded
   if (!loaded && !error) {
     return null;
   }
@@ -72,16 +76,21 @@ function MainApp() {
   return <MainNavigator />;
 }
 
+// MainNavigator: handles the screen navigation and conditional routing
 function MainNavigator() {
+  // Get the current theme from Redux store
   const theme = useSelector((state: RootState) => state.theme.theme);
 
+  // Check user login status from Redux store
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
 
   return (
+    // PaperProvider applies the app theme (dark/light)
     <PaperProvider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
+            // Style for headers
             headerTintColor: theme.colors.onBackground,
             headerTitleAlign: 'center',
             headerStyle: {
@@ -94,8 +103,10 @@ function MainNavigator() {
             },
           }}
         >
+          {/* Conditionally render screens based on login status */}
           {isLoggedIn ? (
             <>
+              {/* User is logged in, show main app screens */}
               <Stack.Screen
                 name="Start"
                 options={{ headerShown: false }}
@@ -115,6 +126,7 @@ function MainNavigator() {
             </>
           ) : (
             <>
+              {/* User is not logged in, show authentication screens */}
               <Stack.Screen
                 name="Main"
                 options={{ headerShown: false }}
