@@ -19,6 +19,13 @@
         "preview4": {
             "distribution": "internal"
         },
-        "production": {}
+        "production": {
+            "android": {
+                "buildType": "apk"
+            },
+            "env": {
+                "TMDB_TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNDI1ODIzZmYxZjVmOTg5NjBlNDUxMDYxMzhiMjc5OCIsInN1YiI6IjY1OWVjM2FmOTU5MGUzMDFhNDNmZjg3NyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Rrbu7_Vf1WxjwgubwxqKQLpsbgtvIACNen9JsqfwU1k"
+            }
+        }
     }
 }
