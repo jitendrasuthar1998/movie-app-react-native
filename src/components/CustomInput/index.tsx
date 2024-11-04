@@ -1,13 +1,14 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 import { TextInput, Text, useTheme } from 'react-native-paper';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 type CustomInputProps = {
   value: string;
   setValue: (value: string) => void;
   label: string;
   leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
+  isPassword?: boolean;
 };
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -15,13 +16,17 @@ const CustomInput: React.FC<CustomInputProps> = ({
   setValue,
   label,
   leftIcon,
-  rightIcon,
+  isPassword = false,
 }) => {
   const [textColor, setTextColor] = React.useState('');
-
   const [isFocused, setIsFocused] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(!isPassword); // Hide password initially if it's a password field
 
   const theme = useTheme();
+
+  const handleTogglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
 
   return (
     <View style={styles.inputContainer}>
@@ -30,6 +35,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
         value={value}
         textColor={textColor}
         style={styles.input}
+        secureTextEntry={!isPasswordVisible}
         onFocus={() => {
           setTextColor('#32A873');
           setIsFocused(true);
@@ -41,7 +47,29 @@ const CustomInput: React.FC<CustomInputProps> = ({
         mode="outlined"
         outlineColor={theme.colors.onBackground}
         left={leftIcon ? <TextInput.Icon icon={() => leftIcon} /> : null}
-        right={rightIcon ? <TextInput.Icon icon={() => rightIcon} /> : null}
+        right={
+          isPassword ? (
+            <TextInput.Icon
+              icon={() => (
+                <TouchableOpacity onPress={handleTogglePasswordVisibility}>
+                  {isPasswordVisible ? (
+                    <MaterialCommunityIcons
+                      name="eye"
+                      size={20}
+                      color={theme.colors.primary}
+                    />
+                  ) : (
+                    <MaterialCommunityIcons
+                      name="eye-off"
+                      size={20}
+                      color={theme.colors.primary}
+                    />
+                  )}
+                </TouchableOpacity>
+              )}
+            />
+          ) : null
+        }
         onChangeText={(text) => setValue(text)}
       />
       <Text style={styles.caption}>{!isFocused && 'Inactive'}</Text>

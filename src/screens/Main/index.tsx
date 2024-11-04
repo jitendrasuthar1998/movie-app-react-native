@@ -1,15 +1,13 @@
-// Import necessary components and libraries
 import { ImageBackground, StatusBar, StyleSheet, View } from 'react-native';
 import React from 'react';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'; // Navigation type for stack
-import { useTheme } from 'react-native-paper'; // Hook to use theme for dark/light mode
-import { useSelector } from 'react-redux'; // Hook to access the Redux store
-import { images } from '../../../assets/index'; // Import image assets
-import CustomButton from '../../components/CustomButton'; // Custom button component
-import { RootStackParamList } from '../../types'; // Type definitions for navigation stack
-import { RootState } from '../../redux/store'; // Root state type for Redux store
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTheme } from 'react-native-paper';
+import { useSelector } from 'react-redux';
+import { images } from '../../../assets/index';
+import CustomButton from '../../components/CustomButton';
+import { RootStackParamList } from '../../types';
+import { RootState } from '../../redux/store';
 
-// Destructure TheLastJediImg from imported images
 const { TheLastJediImg } = images;
 
 // Define props for MainScreen including navigation prop
@@ -17,7 +15,6 @@ type MainScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Main'>;
 };
 
-// Main screen component showing a background image and buttons for navigation
 const Main: React.FC<MainScreenProps> = ({ navigation }) => {
   const theme = useTheme(); // Get theme settings (dark or light) from the app theme provider
 
@@ -36,9 +33,9 @@ const Main: React.FC<MainScreenProps> = ({ navigation }) => {
 
       {/* Display background image covering the entire screen */}
       <ImageBackground
-        source={TheLastJediImg} // Background image source
-        resizeMode="cover" // Set image resizing mode to cover the screen
-        style={styles.heroImg} // Apply styling to cover entire screen
+        source={TheLastJediImg}
+        resizeMode="cover"
+        style={styles.heroImg}
       >
         {/* Container for buttons positioned at the bottom of the screen */}
         <View style={styles.buttonsContainer}>
@@ -66,25 +63,25 @@ export default Main;
 
 // StyleSheet for the Main component
 const styles = StyleSheet.create({
-  container: { flex: 1 }, // Main container takes full screen height
+  container: { flex: 1 },
   heroImg: {
-    position: 'absolute', // Position image to cover entire screen
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
   },
   buttonsContainer: {
-    backgroundColor: '#121212E5', // Semi-transparent background for button container
-    position: 'absolute', // Position container at bottom of screen
+    backgroundColor: '#121212E5',
+    position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: 200, // Set height for container
+    height: 200,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
-    display: 'flex', // Flex display for alignment
-    paddingTop: 29, // Padding for layout spacing
+    display: 'flex',
+    paddingTop: 29,
     paddingBottom: 29,
     paddingLeft: 16,
     paddingRight: 16,

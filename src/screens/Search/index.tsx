@@ -17,7 +17,7 @@ import { Movie } from '../../types';
 import SearchMovieCard from '../../components/SearchMovieCard';
 import SearchSkeleton from '../../components/SearchSkeleton';
 
-const ITEMS_PER_SCREEN = 4; // Show 4 items per screen on mobile
+const ITEMS_PER_SCREEN = 4;
 
 const Search = () => {
   const theme = useTheme();
@@ -172,7 +172,7 @@ const Search = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 10,
     paddingVertical: 10,
     flex: 1,
   },

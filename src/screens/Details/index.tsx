@@ -2,9 +2,9 @@ import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import React, { useLayoutEffect, useState } from 'react';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useTheme, Text } from 'react-native-paper';
+import dayjs from 'dayjs';
 import { images } from '../../../assets';
 import { RootStackParamList } from '../../types';
-import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { fetchDataFromApi } from '../../utils/api';
@@ -43,6 +43,12 @@ interface CreditsData {
 
 const Details = () => {
   const navigation = useNavigation();
+  const theme = useTheme();
+  const dispatch = useDispatch();
+
+  const { url, favoriteMovies } = useSelector(
+    (state: RootState) => state.movie
+  );
 
   const route = useRoute<RouteProp<RootStackParamList, 'Details'>>();
 
@@ -50,8 +56,7 @@ const Details = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<MovieData | null>(null);
   const [credits, setCredits] = useState<CreditsData | null>(null);
-
-  const theme = useTheme();
+  const [imageLoading, setImageLoading] = useState(false);
 
   useLayoutEffect(() => {
     navigation.setOptions({ title });
@@ -74,10 +79,6 @@ const Details = () => {
       setLoading(false);
     }
   };
-
-  const { url, favoriteMovies } = useSelector(
-    (state: RootState) => state.movie
-  );
 
   const posterSource =
     data && data?.backdrop_path
@@ -102,8 +103,6 @@ const Details = () => {
     }
   };
 
-  const dispatch = useDispatch();
-
   const isFavorite = favoriteMovies.some((movie) => movie.id === id);
 
   const handleLikeDislike = () => {
@@ -123,8 +122,6 @@ const Details = () => {
       }
     }
   };
-
-  const [imageLoading, setImageLoading] = useState(false);
 
   return (
     <View

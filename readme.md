@@ -83,8 +83,16 @@ To run the Movie App on your local machine, follow these steps:
    ```
 
 5. **Open on Your Device**:
+
    - For Android, use the Expo Go app to scan the QR code displayed in the terminal or browser.
    - For iOS, use the Camera app to scan the QR code or open the Expo Go app.
+
+6. **Command to build the apk from expo in local**:
+   Use the command below to create the apk file for Android device from your device only:
+
+   ```bash
+   eas build --platform android --local
+   ```
 
 ## Conclusion
 

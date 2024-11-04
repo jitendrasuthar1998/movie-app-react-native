@@ -133,6 +133,7 @@ const Settings = () => {
           Appearance
         </Text>
         <Switch value={isDarkTheme} onChange={handleTheme} />
+        <Text>{isDarkTheme ? 'Dark' : 'Light'}</Text>
       </View>
 
       <View

@@ -7,31 +7,15 @@ const SearchSkeleton = () => {
   const theme = useTheme();
   return (
     <>
-      <LoadingRect
-        height={100}
-        width={'100%'}
-        backgroundColor={theme.colors.onBackground}
-      />
-      <LoadingRect
-        height={100}
-        width={'100%'}
-        backgroundColor={theme.colors.onBackground}
-      />
-      <LoadingRect
-        height={100}
-        width={'100%'}
-        backgroundColor={theme.colors.onBackground}
-      />
-      <LoadingRect
-        height={100}
-        width={'100%'}
-        backgroundColor={theme.colors.onBackground}
-      />
-      <LoadingRect
-        height={100}
-        width={'100%'}
-        backgroundColor={theme.colors.onBackground}
-      />
+      {[1, 2, 3, 4].map((index) => (
+        <LoadingRect
+          key={index}
+          height={100}
+          style={{ borderRadius: 10 }}
+          width={'100%'}
+          backgroundColor={theme.colors.onBackground}
+        />
+      ))}
     </>
   );
 };

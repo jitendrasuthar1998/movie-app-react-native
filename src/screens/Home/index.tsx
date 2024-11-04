@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import MovieSection from '../../components/MovieSection';
 import { useTheme } from 'react-native-paper';
 import { images } from '../../../assets';
-import useFetch from '../../hooks/useFetch';
 import { fetchDataFromApi } from '../../utils/api';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -27,17 +26,6 @@ interface ConfigurationResponse {
   };
 }
 
-// Type for genre item in the genres API response
-interface Genre {
-  id: number;
-  name: string;
-}
-
-// Type for genres API response
-interface GenresResponse {
-  genres: Genre[];
-}
-
 const MainHome: React.FC = () => {
   const theme = useTheme();
   const dispatch = useDispatch<AppDispatch>();
@@ -46,6 +34,7 @@ const MainHome: React.FC = () => {
   const isDarkTheme = useSelector(
     (state: RootState) => state.theme.isDarkTheme
   );
+
   const {
     url,
     genres,
@@ -128,7 +117,6 @@ const MainHome: React.FC = () => {
   // Function to call API to get all genres data
   const getMovieGenres = async () => {
     const { genres } = await fetchDataFromApi(`/genre/movie/list`);
-    // console.log('movieGenres', genres);
     dispatch(saveMovieGenres(genres));
   };
 
