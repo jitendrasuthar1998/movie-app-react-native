@@ -1,0 +1,104 @@
+{
+    "page": 1,
+    "results": [
+        {
+            "adult": false,
+            "backdrop_path": "/VuukZLgaCrho2Ar8Scl9HtV3yD.jpg",
+            "genre_ids": [
+                878,
+                28
+            ],
+            "id": 335983,
+            "original_language": "en",
+            "original_title": "Venom",
+            "overview": "Investigative journalist Eddie Brock attempts a comeback following a scandal, but accidentally becomes the host of Venom, a violent, super powerful alien symbiote. Soon, he must rely on his newfound powers to protect the world from a shadowy organization looking for a symbiote of their own.",
+            "popularity": 2180.97,
+            "poster_path": "/2uNW4WbgBXL25BAbXGLnLqX71Sw.jpg",
+            "release_date": "2018-09-28",
+            "title": "Venom",
+            "video": false,
+            "vote_average": 6.834,
+            "vote_count": 15862
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/3V4kLQg0kSqPLctI5ziYWabAZYF.jpg",
+            "genre_ids": [
+                878,
+                28,
+                12
+            ],
+            "id": 912649,
+            "original_language": "en",
+            "original_title": "Venom: The Last Dance",
+            "overview": "Eddie and Venom are on the run. Hunted by both of their worlds and with the net closing in, the duo are forced into a devastating decision that will bring the curtains down on Venom and Eddie's last dance.",
+            "popularity": 6160.532,
+            "poster_path": "/k42Owka8v91trK1qMYwCQCNwJKr.jpg",
+            "release_date": "2024-10-22",
+            "title": "Venom: The Last Dance",
+            "video": false,
+            "vote_average": 6.7,
+            "vote_count": 442
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/lMY3gjXj3OJ7UXH0veoEMiYQkle.jpg",
+            "genre_ids": [
+                27,
+                53
+            ],
+            "id": 7182,
+            "original_language": "en",
+            "original_title": "Venom",
+            "overview": "A group of teenagers fear for their lives in the swamps of Louisiana, chased by Mr. Jangles, a man possessed by 13 evil souls, and now relentless in his pursuit of new victims.",
+            "popularity": 92.53,
+            "poster_path": "/5NQKF0HQvkBP0Qh9XUmSWdai2wx.jpg",
+            "release_date": "2005-09-16",
+            "title": "Venom",
+            "video": false,
+            "vote_average": 5.5,
+            "vote_count": 336
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/xHbpL55I16JB7f1oV2iR57Gxh8Q.jpg",
+            "genre_ids": [
+                27,
+                53
+            ],
+            "id": 30789,
+            "original_language": "en",
+            "original_title": "Venom",
+            "overview": "International terrorists attempt to kidnap a wealthy couple's child. Their plan comes unstuck when a deadly Black Mamba, sent by mistake instead of a harmless snake, escapes and the terrorists and several hostages are trapped in the boy's London home.",
+            "popularity": 73.379,
+            "poster_path": "/v44VNoH2suoaCPnUj2YyXcvgGfn.jpg",
+            "release_date": "1981-11-28",
+            "title": "Venom",
+            "video": false,
+            "vote_average": 5.564,
+            "vote_count": 78
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/vIgyYkXkg6NC2whRbYjBD7eb3Er.jpg",
+            "genre_ids": [
+                878,
+                28,
+                12
+            ],
+            "id": 580489,
+            "original_language": "en",
+            "original_title": "Venom: Let There Be Carnage",
+            "overview": "After finding a host body in investigative reporter Eddie Brock, the alien symbiote must face a new enemy, Carnage, the alter ego of serial killer Cletus Kasady.",
+            "popularity": 1765.262,
+            "poster_path": "/1MJNcPZy46hIy2CmSqOeru0yr5C.jpg",
+            "release_date": "2021-09-30",
+            "title": "Venom: Let There Be Carnage",
+            "video": false,
+            "vote_average": 6.8,
+            "vote_count": 10090
+        }
+    ],
+    "total_pages": 4,
+    "total_results": 73
+}

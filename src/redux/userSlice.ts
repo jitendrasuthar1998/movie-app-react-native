@@ -43,7 +43,7 @@ export const loadUserLoginState = createAsyncThunk(
   'user/loadUserLoginState',
   async () => {
     const userLoggedIn = await getItem('currentUser');
-    console.log('user logged in in redux thunk', userLoggedIn);
+    // console.log('user logged in in redux thunk', userLoggedIn);
     return userLoggedIn ? userLoggedIn : false;
   }
 );
@@ -66,9 +66,9 @@ const userSlice = createSlice({
     },
     signUpUser: (state, action: PayloadAction<User>) => {
       const { username, email, password } = action.payload;
-      console.log('username: ' + username);
-      console.log('email: ' + email);
-      console.log('plainPassword: ' + password);
+      // console.log('username: ' + username);
+      // console.log('email: ' + email);
+      // console.log('plainPassword: ' + password);
       // Encrypt the password
 
       // Create new user and add to users array

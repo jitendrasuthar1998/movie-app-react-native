@@ -1,9 +1,9 @@
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { images } from '../../../assets';
+import React, { useLayoutEffect, useState } from 'react';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { RootStackParamList } from '../../types';
 import { useTheme, Text } from 'react-native-paper';
+import { images } from '../../../assets';
+import { RootStackParamList } from '../../types';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
@@ -27,7 +27,7 @@ interface MovieData {
   overview: string;
   poster_path: string;
   backdrop_path: string;
-  genres: Array<{ name: string }>;
+  genres: Array<{ name: string; id: number }>;
 }
 
 // Define the structure of the credits data
@@ -60,7 +60,6 @@ const Details = () => {
   const getMovieAndCreditDetails = async () => {
     try {
       const movieData: MovieData = await fetchDataFromApi(`/movie/${id}`);
-      // console.log('movie response: ', movieData);
 
       const creditsData: CreditsData = await fetchDataFromApi(
         `/movie/${id}/credits`
@@ -80,7 +79,7 @@ const Details = () => {
   );
 
   const posterSource =
-    data && data?.poster_path
+    data && data?.backdrop_path
       ? { uri: url.backdrop + data?.backdrop_path }
       : NoPosterImg;
 
@@ -113,6 +112,8 @@ const Details = () => {
         poster_path: data?.poster_path,
         release_date: data?.release_date,
         title: data?.title,
+        genre_ids: data?.genres.map((genre) => genre.id),
+        vote_average: data?.vote_average,
       };
       if (isFavorite) {
         dispatch(removeMovieFromFavorites(movie));
@@ -124,23 +125,23 @@ const Details = () => {
 
   return (
     <View
-      style={{
-        display: 'flex',
-        flex: 1,
-        flexDirection: 'column',
-        backgroundColor: theme.colors.background,
-        gap: 10,
-        position: 'relative',
-      }}
+      style={[
+        styles.detailsContainer,
+        { backgroundColor: theme.colors.background },
+      ]}
     >
       {loading ? (
         <DetailsSkeleton />
       ) : (
         <>
-          <Image source={posterSource} height={200} resizeMode="contain" />
+          <Image
+            source={posterSource}
+            resizeMode="cover"
+            style={{ height: 200 }}
+          />
           <TouchableOpacity
             onPress={handleLikeDislike}
-            style={{ position: 'absolute', top: 10, right: 10, zIndex: 10 }}
+            style={styles.likeContainer}
           >
             <Ionicons
               name={'heart'}
@@ -149,69 +150,18 @@ const Details = () => {
             />
           </TouchableOpacity>
           <View style={{ paddingHorizontal: 10, gap: 10 }}>
-            <Text
-              style={{
-                fontFamily: 'Inter-Bold',
-                color: theme.colors.onBackground,
-                fontSize: 20,
-              }}
-            >
-              {title}
-            </Text>
-            <Text
-              style={{
-                fontFamily: 'Inter-Regular',
-                color: '#969696',
-                fontSize: 12,
-                textAlign: 'justify',
-              }}
-            >
+            <Text style={styles.movieTitle}>{title}</Text>
+            <Text style={styles.movieReleaseRatingInfo}>
               {dayjs(data?.release_date).format('MMM D, YYYY')}
               {data?.adult ? <Text>| 18+</Text> : ''}
               {data?.vote_average ? ` | ${data?.vote_average}` : ''}
             </Text>
-            <Text
-              style={{
-                fontFamily: 'Inter-Regular',
-                color: theme.colors.onBackground,
-                fontSize: 13,
-                lineHeight: 15.73,
-                textAlign: 'justify',
-              }}
-            >
-              {data?.overview}
-            </Text>
-            <Text
-              style={{
-                fontFamily: 'Inter-Regular',
-                color: theme.colors.onBackground,
-                fontSize: 13,
-                lineHeight: 15.73,
-                textAlign: 'justify',
-              }}
-            >
-              Starring: {getCast()}
-            </Text>
-            <Text
-              style={{
-                fontFamily: 'Inter-Regular',
-                color: theme.colors.onBackground,
-                fontSize: 13,
-                lineHeight: 15.73,
-                textAlign: 'justify',
-              }}
-            >
+            <Text style={styles.movieOverview}>{data?.overview}</Text>
+            <Text style={styles.movieOtherInfo}>Starring: {getCast()}</Text>
+            <Text style={styles.movieOtherInfo}>
               Creators : {getCreators()}
             </Text>
-            <Text
-              style={{
-                fontFamily: 'Inter-Regular',
-                color: theme.colors.onBackground,
-                fontSize: 13,
-                lineHeight: 15.73,
-                textAlign: 'justify',
-              }}
-            >
+            <Text style={styles.movieOtherInfo}>
               Genre : {data?.genres.map((item) => item.name).join(', ')}
             </Text>
           </View>
@@ -223,4 +173,35 @@ const Details = () => {
 
 export default Details;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  detailsContainer: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+    gap: 10,
+    position: 'relative',
+  },
+  likeContainer: { position: 'absolute', top: 10, right: 10, zIndex: 10 },
+  movieTitle: {
+    fontFamily: 'Inter-Bold',
+    fontSize: 20,
+  },
+  movieReleaseRatingInfo: {
+    fontFamily: 'Inter-Regular',
+    color: '#969696',
+    fontSize: 12,
+    textAlign: 'justify',
+  },
+  movieOverview: {
+    fontFamily: 'Inter-Regular',
+    fontSize: 13,
+    lineHeight: 15.73,
+    textAlign: 'justify',
+  },
+  movieOtherInfo: {
+    fontFamily: 'Inter-Regular',
+    fontSize: 13,
+    lineHeight: 15.73,
+    textAlign: 'justify',
+  },
+});

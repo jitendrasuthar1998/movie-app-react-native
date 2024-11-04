@@ -2,39 +2,31 @@ import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { images } from '../../../assets';
 import { Text, useTheme } from 'react-native-paper';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import dayjs from 'dayjs';
-import { useDispatch } from 'react-redux';
-import { removeMovieFromFavorites } from '../../redux/movieSlice';
 import { Movie, RootStackParamList, Url } from '../../types';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 const { NoPosterImg } = images;
 
-type FavoriteMovieCardProps = {
+type SearchMovieCardProps = {
   item: Movie;
   url: Url;
 };
 
-const FavoriteMovieCard: React.FC<FavoriteMovieCardProps> = ({ item, url }) => {
+const SearchMovieCard: React.FC<SearchMovieCardProps> = ({ item, url }) => {
   const theme = useTheme();
   const posterSource = item.poster_path
     ? { uri: url.poster + item.poster_path }
     : NoPosterImg;
+
+  const truncatedTitle =
+    item.title.length > 20 ? `${item.title.substring(0, 20)}...` : item.title;
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handleNavigation = () => {
     navigation.navigate('Details', { title: item.title, id: item.id });
   };
-  const dispatch = useDispatch();
-
-  const handleDislike = () => {
-    dispatch(removeMovieFromFavorites(item));
-  };
-
-  const truncatedTitle =
-    item.title.length > 20 ? `${item.title.substring(0, 20)}...` : item.title;
 
   return (
     <TouchableOpacity
@@ -57,20 +49,12 @@ const FavoriteMovieCard: React.FC<FavoriteMovieCardProps> = ({ item, url }) => {
             {dayjs(item.release_date).format('MMM D, YYYY')}
           </Text>
         </View>
-        <View style={styles.movieLikeContainerStyle}>
-          <Ionicons
-            onPress={handleDislike}
-            name={'heart'}
-            size={20}
-            color={theme.colors.primary}
-          />
-        </View>
       </View>
     </TouchableOpacity>
   );
 };
 
-export default FavoriteMovieCard;
+export default SearchMovieCard;
 
 const styles = StyleSheet.create({
   movieCardContainerStyle: {

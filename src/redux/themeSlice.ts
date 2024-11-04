@@ -76,7 +76,7 @@ const themeSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loadThemePreference.fulfilled, (state, action) => {
-      console.log('theme builder action payload', action.payload);
+      // console.log('theme builder action payload', action.payload);
       state.isDarkTheme = action.payload;
       state.theme = state.isDarkTheme
         ? CombinedDarkTheme

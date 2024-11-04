@@ -14,7 +14,7 @@ const Favorites = () => {
     (state: RootState) => state.movie
   );
 
-  console.log('favoriteMovies at Favorites', favoriteMovies);
+  // console.log('favoriteMovies at Favorites', favoriteMovies);
 
   return (
     <View
