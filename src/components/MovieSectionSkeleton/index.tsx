@@ -13,32 +13,24 @@ const MovieSectionSkeleton = () => {
         width={'100%'}
         backgroundColor={theme.colors.onBackground}
       />
-      <View style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
-        <LoadingRect
-          height={120}
-          width={120}
-          backgroundColor={theme.colors.onBackground}
-        />
-        <LoadingRect
-          height={120}
-          width={120}
-          backgroundColor={theme.colors.onBackground}
-        />
-        <LoadingRect
-          height={120}
-          width={120}
-          backgroundColor={theme.colors.onBackground}
-        />
-        <LoadingRect
-          height={20}
-          width={120}
-          backgroundColor={theme.colors.onBackground}
-        />
-        <LoadingRect
-          height={20}
-          width={120}
-          backgroundColor={theme.colors.onBackground}
-        />
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: 10,
+          width: '100%',
+          justifyContent: 'center',
+        }}
+      >
+        {[1, 2, 3].map((index) => (
+          <LoadingRect
+            key={index}
+            height={120}
+            width={120}
+            style={{ borderRadius: 10 }}
+            backgroundColor={theme.colors.onBackground}
+          />
+        ))}
       </View>
     </View>
   );

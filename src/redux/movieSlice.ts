@@ -89,7 +89,7 @@ export const movieSlice = createSlice({
   extraReducers: (builder) => {
     // Handle successful loading of favorite movies from local storage
     builder.addCase(loadFavoriteMovies.fulfilled, (state, action) => {
-      if (action.payload.length) {
+      if (action.payload?.length) {
         state.favoriteMovies = action.payload; // Update state with loaded favorites
       }
     });

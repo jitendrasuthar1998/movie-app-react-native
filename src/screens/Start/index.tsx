@@ -180,8 +180,8 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   tabBarItemContainer: {
-    height: 44,
-    width: 44,
+    height: 50,
+    width: 50,
     borderColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
