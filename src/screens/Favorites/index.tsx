@@ -1,7 +1,7 @@
 // Import necessary components from React Native and other libraries
-import { FlatList, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StatusBar, StyleSheet, View } from 'react-native';
 import React from 'react';
-import { useTheme } from 'react-native-paper'; // Hook to access theme settings
+import { useTheme, Text } from 'react-native-paper'; // Hook to access theme settings
 import { useSelector } from 'react-redux'; // Hook to access the Redux store
 import { RootState } from '../../redux/store'; // Type definition for Redux store root state
 import FavoriteMovieCard from '../../components/FavoriteMovieCard'; // Custom component for each favorite movie
