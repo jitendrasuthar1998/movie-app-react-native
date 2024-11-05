@@ -11,8 +11,8 @@ import {
   DefaultTheme as NavigationDefaultTheme,
 } from '@react-navigation/native';
 import merge from 'deepmerge'; // Utility for merging theme objects
-import { Colors } from '../constants/colors'; // Custom colors
-import { getItem, setItem } from '../utils/AsyncStorage'; // Functions for AsyncStorage
+import { Colors } from '../constants/colors';
+import { getItem, setItem } from '../utils/AsyncStorage';
 
 // Define custom themes by merging base themes with custom color schemes
 const customDarkTheme: MD3Theme = { ...MD3DarkTheme, colors: Colors.dark };
@@ -30,8 +30,8 @@ const CombinedDarkTheme: MD3Theme = merge(DarkTheme, customDarkTheme);
 
 // Define the initial theme state structure
 interface ThemeState {
-  isDarkTheme: boolean; // Whether dark theme is active
-  theme: MD3Theme; // The active theme object
+  isDarkTheme: boolean;
+  theme: MD3Theme;
 }
 
 // Set the initial theme state to dark mode by default
@@ -44,8 +44,8 @@ const initialState: ThemeState = {
 export const loadThemePreference = createAsyncThunk(
   'theme/loadPreference', // Action type
   async () => {
-    const darkTheme = await getItem('isDarkTheme'); // Retrieve saved theme preference
-    return darkTheme !== null ? darkTheme : true; // Default to dark theme if no preference is saved
+    const isDarkTheme = await getItem('isDarkTheme');
+    return isDarkTheme !== null ? isDarkTheme : true;
   }
 );
 
@@ -53,38 +53,38 @@ export const loadThemePreference = createAsyncThunk(
 export const saveThemePreference = createAsyncThunk(
   'theme/savePreference', // Action type
   async (isDarkTheme: boolean) => {
-    await setItem('isDarkTheme', isDarkTheme); // Store the theme preference in storage
+    await setItem('isDarkTheme', isDarkTheme);
   }
 );
 
 // Define the theme slice, which contains actions and reducers for managing theme state
 const themeSlice = createSlice({
-  name: 'theme', // Slice name
-  initialState, // Initial theme state
+  name: 'theme',
+  initialState,
   reducers: {
     // Action to toggle between dark and light themes
     toggleTheme: (state: ThemeState) => {
-      state.isDarkTheme = !state.isDarkTheme; // Toggle the dark theme state
+      state.isDarkTheme = !state.isDarkTheme;
       state.theme = state.isDarkTheme
         ? CombinedDarkTheme
-        : CombinedDefaultTheme; // Set the active theme based on toggle
-      setItem('isDarkTheme', state.isDarkTheme); // Save the updated theme preference to storage
+        : CombinedDefaultTheme;
+      setItem('isDarkTheme', state.isDarkTheme);
     },
     // Action to set the theme explicitly to dark or light
     setTheme: (state: ThemeState, action: PayloadAction<boolean>) => {
-      state.isDarkTheme = action.payload; // Set dark theme based on payload
-      state.theme = action.payload ? CombinedDarkTheme : CombinedDefaultTheme; // Update active theme
-      setItem('isDarkTheme', state.isDarkTheme); // Save the theme preference
+      state.isDarkTheme = action.payload;
+      state.theme = action.payload ? CombinedDarkTheme : CombinedDefaultTheme;
+      setItem('isDarkTheme', state.isDarkTheme);
     },
   },
   // Handle extra actions, such as async actions for loading preferences
   extraReducers: (builder) => {
     // Set the theme state based on the loaded preference from storage
     builder.addCase(loadThemePreference.fulfilled, (state, action) => {
-      state.isDarkTheme = action.payload; // Set dark theme state based on loaded preference
+      state.isDarkTheme = action.payload;
       state.theme = state.isDarkTheme
         ? CombinedDarkTheme
-        : CombinedDefaultTheme; // Update theme based on preference
+        : CombinedDefaultTheme;
     });
   },
 });

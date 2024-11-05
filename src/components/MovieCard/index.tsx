@@ -36,7 +36,11 @@ const MovieCard: React.FC<MovieCardProps> = ({ item }) => {
   const { url, favoriteMovies } = useSelector(
     (state: RootState) => state.movie
   );
+
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const isFavorite = favoriteMovies.some((movie) => movie.id === item.id);
+
   // Set the poster source based on availability of `poster_path`
   const posterSource = item.poster_path
     ? { uri: url.poster + item.poster_path }
@@ -48,8 +52,6 @@ const MovieCard: React.FC<MovieCardProps> = ({ item }) => {
     navigation.navigate('Details', { title: item.title, id: item.id });
   };
 
-  const dispatch = useDispatch();
-  const isFavorite = favoriteMovies.some((movie) => movie.id === item.id);
   const handleLikeDislike = () => {
     const movie = {
       id: item.id,

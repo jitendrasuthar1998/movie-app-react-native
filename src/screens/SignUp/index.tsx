@@ -10,8 +10,8 @@ import CustomInput from '../../components/CustomInput';
 import Header from '../../components/Header';
 import { icons } from '../../../assets';
 import { RootStackParamList } from '../../types';
-import { AppDispatch } from '../../redux/store';
-import { useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
 import { signUpUser } from '../../redux/userSlice';
 const { LockIcon, MessageIcon, EyeIcon, UserIcon } = icons;
 
@@ -28,18 +28,22 @@ const SignUp: React.FC<SignUpScreenProps> = ({ navigation }) => {
   const theme = useTheme();
   const dispatch = useDispatch<AppDispatch>();
 
-  // Handle signup action
+  const { users } = useSelector((state: RootState) => state.user);
+
   const handleSignUp = () => {
+    let userExist = users.some((user) => user.email === email);
+
     // Check if all fields are filled
     if (userName && email && password) {
-      // Dispatch signup action with username, email, and password
-      dispatch(signUpUser({ username: userName, email, password }));
-      alert('User signed up successfully!');
-
-      // Navigate to Login screen after signup
-      navigation.navigate('Login');
+      if (userExist) {
+        alert(`User ${userName} already exists. Login with ${email}`);
+        navigation.navigate('Login');
+      } else {
+        dispatch(signUpUser({ username: userName, email, password }));
+        navigation.navigate('Login');
+      }
     } else {
-      alert('Please fill all fields'); // Alert if fields are empty
+      alert('Please fill all fields');
     }
   };
 
@@ -49,21 +53,20 @@ const SignUp: React.FC<SignUpScreenProps> = ({ navigation }) => {
     >
       <Header title={'Sign Up'} size={24} />
       <View style={styles.inputFieldsContainer}>
-        {/* Custom input for email */}
         <CustomInput
           label={'Email'}
           value={email}
           setValue={setEmail}
           leftIcon={<MessageIcon width={18} height={18} />}
         />
-        {/* Custom input for username */}
+
         <CustomInput
           label={'Username'}
           value={userName}
           setValue={setUserName}
           leftIcon={<UserIcon width={18} height={18} />}
         />
-        {/* Custom input for password */}
+
         <CustomInput
           label={'Password'}
           value={password}
@@ -71,13 +74,13 @@ const SignUp: React.FC<SignUpScreenProps> = ({ navigation }) => {
           isPassword
           leftIcon={<LockIcon width={18} height={18} />}
         />
-        {/* Custom button for signing up */}
+
         <CustomButton
           mode={'contained'}
           title={'Sign Up'}
           onPress={handleSignUp}
         />
-        {/* Helper text with link to login */}
+
         <Text style={styles.helperText}>
           Already have an account?{' '}
           <Text
@@ -99,18 +102,18 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
-    gap: 20, // Space between elements
+    gap: 20,
     padding: 10,
-    justifyContent: 'center', // Center content vertically
+    justifyContent: 'center',
   },
   inputFieldsContainer: {
-    height: 334, // Fixed height for input fields container
+    height: 334,
     display: 'flex',
-    gap: 20, // Space between input fields and button
+    gap: 20,
   },
   helperText: {
-    textAlign: 'center', // Center the helper text
-    fontFamily: 'Inter-Regular', // Font style for helper text
-    fontSize: 13, // Font size for helper text
+    textAlign: 'center',
+    fontFamily: 'Inter-Regular',
+    fontSize: 13,
   },
 });

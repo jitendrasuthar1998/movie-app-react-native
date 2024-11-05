@@ -4,6 +4,10 @@
 
 ## Email - jitendrasuthar995@gmail.com
 
+### Information
+
+**Note**: If you're in India and using a Jio Network connection, please use a VPN while using this application on mobile or in a simulator. Jio has restricted access to TMDB APIs, so without a VPN, the app may not function correctly on Jio's network.
+
 Welcome to the **Movie App**! This mobile application allows users to explore movies, manage favorites, and personalize their experience. Built using React Native and Expo, this app is designed for both Android and iOS devices.
 
 ## Features

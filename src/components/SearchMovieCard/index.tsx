@@ -1,10 +1,11 @@
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { images } from '../../../assets';
 import { Text, useTheme } from 'react-native-paper';
 import dayjs from 'dayjs';
 import { Movie, RootStackParamList, Url } from '../../types';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import LoadingRect from '../DetailsSkeleton/LoadingRect';
 
 const { NoPosterImg } = images;
 
@@ -28,6 +29,8 @@ const SearchMovieCard: React.FC<SearchMovieCardProps> = ({ item, url }) => {
     navigation.navigate('Details', { title: item.title, id: item.id });
   };
 
+  const [imageLoading, setImageLoading] = useState(false);
+
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -37,11 +40,26 @@ const SearchMovieCard: React.FC<SearchMovieCardProps> = ({ item, url }) => {
         { borderColor: theme.colors.onBackground, borderWidth: 0.2 },
       ]}
     >
-      <Image
-        source={posterSource}
-        resizeMode="cover"
-        style={styles.moviePosterImgStyle}
-      />
+      <View style={styles.moviePosterImgStyle}>
+        {imageLoading ? (
+          <LoadingRect
+            style={[
+              styles.moviePosterImgStyle,
+              { position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 },
+            ]}
+            height={'100%'}
+            width={'100%'}
+            backgroundColor={theme.colors.onBackground}
+          />
+        ) : null}
+        <Image
+          source={posterSource}
+          resizeMode="cover"
+          onLoadStart={() => setImageLoading(true)}
+          onLoadEnd={() => setImageLoading(false)}
+          style={styles.moviePosterImgStyle}
+        />
+      </View>
       <View style={styles.movieDetailsContainerStyle}>
         <View style={{ gap: 10 }}>
           <Text style={styles.movieTitleStyle}>{truncatedTitle}</Text>

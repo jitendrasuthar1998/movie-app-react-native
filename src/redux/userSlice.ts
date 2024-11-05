@@ -15,9 +15,9 @@ interface CurrentUser {
 }
 
 interface UserState {
-  users: User[]; // Array to store registered users
-  isLoggedIn: boolean; // Flag to track if a user is logged in
-  currentUser: CurrentUser | null; // Current logged-in user data
+  users: User[];
+  isLoggedIn: boolean;
+  currentUser: CurrentUser | null;
 }
 
 // Define the initial state for users and authentication
@@ -29,16 +29,16 @@ const initialState: UserState = {
 
 // Async thunk to load users list from AsyncStorage
 export const loadUsers = createAsyncThunk('user/loadUsers', async () => {
-  const storedUsers = await getItem('users'); // Retrieve users from storage
-  return storedUsers ? storedUsers : []; // Return users or an empty array
+  const storedUsers = await getItem('users');
+  return storedUsers ? storedUsers : [];
 });
 
 // Async thunk to load current user data from AsyncStorage
 export const loadCurrentUser = createAsyncThunk(
   'user/loadCurrentUser',
   async () => {
-    const storedCurrentUser = await getItem('currentUser'); // Retrieve current user
-    return storedCurrentUser ? storedCurrentUser : null; // Return user or null
+    const storedCurrentUser = await getItem('currentUser');
+    return storedCurrentUser ? storedCurrentUser : null;
   }
 );
 
@@ -46,8 +46,8 @@ export const loadCurrentUser = createAsyncThunk(
 export const loadUserLoginState = createAsyncThunk(
   'user/loadUserLoginState',
   async () => {
-    const userLoggedIn = await getItem('isLoggedIn'); // Check login status
-    return userLoggedIn ? true : false; // Return login status as boolean
+    const userLoggedIn = await getItem('isLoggedIn');
+    return userLoggedIn ? true : false;
   }
 );
 
@@ -61,42 +61,39 @@ export const saveUsers = createAsyncThunk(
 
 // Create the user slice containing actions and reducers for user management
 const userSlice = createSlice({
-  name: 'user', // Name of the slice
-  initialState, // Initial state for users
+  name: 'user',
+  initialState,
   reducers: {
-    // Action for signing up a new user
     signUpUser: (state, action: PayloadAction<User>) => {
-      state.users.push(action.payload); // Add new user to users array
-      setItem('users', state.users); // Save updated users list to storage
+      state.users.push(action.payload);
+      setItem('users', state.users);
     },
 
-    // Action for logging in a user
     loginUser: (
       state,
       action: PayloadAction<{ email: string; password: string }>
     ) => {
-      // Find user by email in users array
       const user = state.users.find((u) => u.email === action.payload.email);
 
       if (user && action.payload.password === user.password) {
-        // If user found and password matches, set login state
         const { username } = user;
         const { email } = action.payload;
         state.isLoggedIn = true;
         state.currentUser = { username, email };
-        setItem('currentUser', state.currentUser); // Save current user to storage
-        setItem('isLoggedIn', true); // Save login status to storage
+        alert('Login successful');
+        setItem('currentUser', state.currentUser);
+        setItem('isLoggedIn', true);
       } else {
-        alert('Invalid email or password'); // Display error if login fails
+        alert('Invalid email or password');
       }
     },
 
     // Action for logging out a user
     logoutUser: (state) => {
-      state.isLoggedIn = false; // Set login state to false
-      state.currentUser = null; // Clear current user data
-      setItem('currentUser', state.currentUser); // Remove current user from storage
-      setItem('isLoggedIn', false); // Update login status in storage
+      state.isLoggedIn = false;
+      state.currentUser = null;
+      setItem('currentUser', state.currentUser);
+      setItem('isLoggedIn', false);
     },
   },
   // Handle async actions in extra reducers

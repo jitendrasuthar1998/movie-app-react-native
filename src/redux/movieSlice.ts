@@ -39,15 +39,15 @@ const initialState: MovieState = {
 export const loadFavoriteMovies = createAsyncThunk(
   'movie/loadFavoriteMovies', // Action type
   async () => {
-    const favoriteMovies = await getItem('favoriteMovies'); // Retrieve stored favorite movies
-    return favoriteMovies; // Return retrieved movies or an empty array if not found
+    const favoriteMovies = await getItem('favoriteMovies');
+    return favoriteMovies;
   }
 );
 
 // Create a slice of the Redux store for handling movie-related data
 export const movieSlice = createSlice({
-  name: 'movie', // Name of the slice
-  initialState, // Initial state for the slice
+  name: 'movie',
+  initialState,
   reducers: {
     // Save API configuration URLs (e.g., for posters and backdrops)
     saveApiConfiguration: (state, action: PayloadAction<Url>) => {
@@ -60,14 +60,14 @@ export const movieSlice = createSlice({
     // Add a movie to the favorites list and save the updated list in storage
     saveMovieIntoFavorites: (state, action: PayloadAction<Movie>) => {
       state.favoriteMovies.push(action.payload);
-      setItem('favoriteMovies', state.favoriteMovies); // Persist updated favorites
+      setItem('favoriteMovies', state.favoriteMovies);
     },
     // Remove a movie from favorites by filtering it out based on movie ID
     removeMovieFromFavorites: (state, action: PayloadAction<Movie>) => {
       state.favoriteMovies = state.favoriteMovies.filter(
         (item) => isEqual(item, action) // Check for equality based on movie ID
       );
-      setItem('favoriteMovies', state.favoriteMovies); // Persist updated favorites
+      setItem('favoriteMovies', state.favoriteMovies);
     },
     // Save a list of popular movies
     savePopularMovies: (state, action: PayloadAction<Movie[]>) => {
@@ -90,7 +90,7 @@ export const movieSlice = createSlice({
     // Handle successful loading of favorite movies from local storage
     builder.addCase(loadFavoriteMovies.fulfilled, (state, action) => {
       if (action.payload?.length) {
-        state.favoriteMovies = action.payload; // Update state with loaded favorites
+        state.favoriteMovies = action.payload;
       }
     });
   },

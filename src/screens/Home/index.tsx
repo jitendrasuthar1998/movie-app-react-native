@@ -134,7 +134,7 @@ const MainHome: React.FC = () => {
       {loading ? (
         <View style={{ display: 'flex', gap: 10 }}>
           <LoadingRect
-            height={400}
+            height={450}
             width={'100%'}
             backgroundColor={theme.colors.onBackground}
           />
