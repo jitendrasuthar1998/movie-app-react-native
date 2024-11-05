@@ -49,7 +49,7 @@ const SearchMovieCard: React.FC<SearchMovieCardProps> = ({ item, url }) => {
             ]}
             height={'100%'}
             width={'100%'}
-            backgroundColor={theme.colors.onBackground}
+            backgroundColor={'#F3F3F3'}
           />
         ) : null}
         <Image
