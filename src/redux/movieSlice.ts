@@ -37,7 +37,7 @@ const initialState: MovieState = {
 
 // Async action to load favorite movies from local storage (async storage) when the app initializes
 export const loadFavoriteMovies = createAsyncThunk(
-  'theme/loadPreference', // Action type
+  'movie/loadFavoriteMovies', // Action type
   async () => {
     const favoriteMovies = await getItem('favoriteMovies'); // Retrieve stored favorite movies
     return favoriteMovies; // Return retrieved movies or an empty array if not found
