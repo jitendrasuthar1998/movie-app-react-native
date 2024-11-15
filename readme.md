@@ -1,4 +1,4 @@
-# Movie App - React Native Assessment
+# Movie App - React Native
 
 ## App is built by Jitendra Suthar.
 
@@ -12,9 +12,8 @@ Welcome to the **Movie App**! This mobile application allows users to explore mo
 
 ## Video Demo
 
-You can watch a demo of the Movie App below:
+You can view a demo of the Movie App by clicking [here](https://drive.google.com/file/d/1-0LyReLNoeo5QOvB7wROK9sVBAKL9lZf/view?usp=drive_link).
 
-<iframe src="https://drive.google.com/file/d/1-0LyReLNoeo5QOvB7wROK9sVBAKL9lZf/preview" width="640" height="480"></iframe>
 
 ## Features
 
