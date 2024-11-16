@@ -12,8 +12,7 @@ Welcome to the **Movie App**! This mobile application allows users to explore mo
 
 ## Video Demo
 
-You can view a demo of the Movie App by clicking [here](https://drive.google.com/file/d/1-0LyReLNoeo5QOvB7wROK9sVBAKL9lZf/view?usp=drive_link).
-
+You can view a demo of the Movie App by clicking [here](https://youtu.be/MuuuoNuUYyo?si=YF4hZritsbP0EAQi).
 
 ## Features
 
